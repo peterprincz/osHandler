@@ -17,10 +17,9 @@ def get_current_path():
     return os.getcwd()
 
 
-def compress_folder(foldername):
-    print("zipping   " + "zip -r " + foldername + ".zip " + foldername)
-    os.system("zip -r " + foldername + ".zip . -i " + foldername)
-
+def compress_folder(foldername, path):
+    print("zipping   " + "zip -r " + "a" + ".zip " + path)
+    os.system("zip -r " + foldername + ".zip . -i " + path)
 
 def move_back():
     current_path = get_current_path()

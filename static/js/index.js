@@ -42,9 +42,7 @@ $.ajax({
         $.each(response.list_of_folders, function(index, value){
             var div = $("<div class='folderDiv'></div>")
             var p = $("<p style='color:red;cursor:pointer;' data-type = 'folder' style='display: inline;'>" + value + "</p>")
-            var a = $("<a href=compress_folder/" + value +" style='display: inline;'>ZIP</a>")
             div.append(p)
-            div.append(a)
             $("#folders").append(div)
         })
         addLinksToFolders();
@@ -68,38 +66,45 @@ function addLinksToFiles(){
 
 
 function addLinksToFolders(){
-    folders = $("#folders").children()
-    console.log(folders);
-    $.each(folders, function(index, value){
+    folderDivs = $($("#folders").children())
+    console.log(folderDivs);
+    $.each(folderDivs, function(index, value){
         $(value).click(function(){
-            $.ajax({
-            type: "GET",
-            url: "/move_to/" + $(this).children()[0].innerHTML,
-            success :function(data){
-                $("#current_folder").html(data.current_location)
-                refreshTable()
-            }
-            })
+            current_location = current_location + "/" + $(value).children()[0].innerHTML
+            refreshTable();
         })
     })
 }
 
+
+function moveBack(){
+    if(current_location == "/home"){
+        return
+    }
+    for(let i = current_location.length - 1;i > 0;i--){
+    	if(current_location[i] == "/"){
+	    	current_location = current_location.substring(0, i);
+	    	refreshTable();
+		    break;
+        }
+    }
+}
+
+
+    function addCompress(){
+        var char = "/"
+        var formattedLocation = current_location.substring(1, current_location.length)
+        for(let i = 0;i < formattedLocation.length; i ++){
+            formattedLocation = formattedLocation.replace(char, '!')
+        }
+        $("#compresser").attr("href", "/compress_folder/" + '!' + formattedLocation);
+}
 
 function refreshTable(){
     $("#files").html(" ")
     $("#folders").html(" ")
     displayFolders();
     displayFiles();
+    addCompress()
 }
 
-
-function moveBack(){
-        $.ajax({
-        type: "GET",
-        url: "/move_back",
-        success : function(data){
-            $("#current_folder").html(data.current_location)
-            refreshTable();
-        }
-        })
-}
