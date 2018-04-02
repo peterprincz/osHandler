@@ -55,8 +55,13 @@ $.ajax({
 
 function addLinksToFiles(){
     let list_of_files = $("[data-type='file']")
+    let char = '/'
     $.each(list_of_files, function(index, value){
-        value.href="/download_file/" + value.innerHTML;
+        var formattedLocation = current_location
+        for(let i = 0;i < formattedLocation.length; i ++){
+            formattedLocation = formattedLocation.replace(char, '!')
+        }
+        value.href="/download_file/" + formattedLocation + '!' + value.innerHTML;
     })
     }
 

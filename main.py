@@ -30,7 +30,6 @@ def test():
 def get_folders():
     location = request.form['currentLocation']
     list_of_folders = sys_handler.get_folder_dict(location)['folders']
-    print(list_of_folders)
     return jsonBuilder.get_folders(list_of_folders)
 
 
@@ -41,7 +40,7 @@ def get_files():
     return jsonBuilder.get_files(list_of_files)
 
 
-#---------------------------------------------------------------------------------------------------------
+
 @app.route("/move_to/<foldername>")
 def move_into_folder(foldername):
     sys_handler.move_into_folder(foldername)
@@ -55,9 +54,16 @@ def get_location():
 
 @app.route("/download_file/<path>")
 def DownloadLogFile (path):
+    foldername = ""
+    filename = ""
     realpath = path.replace("!", "/")
+    for x in range(len(realpath) - 1, -1, -1):
+        if realpath[x] == "/":
+            foldername = realpath[0:x + 1]
+            filename = realpath[x + 1:]
+            break
     try:
-        return send_from_directory(os.getcwd(), realpath, as_attachment=True)
+        return send_from_directory(foldername, filename, as_attachment=True)
     except Exception as e:
         print(e)
 
@@ -71,8 +77,6 @@ def move_back():
 @app.route("/compress_folder/<foldername>")
 def compress_folder(foldername):
     sys_handler.compress_folder(foldername)
-    print(os.getcwd())
-    print(foldername)
     return send_from_directory(os.getcwd(), foldername +".zip", as_attachment=True)
 
 
