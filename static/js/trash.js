@@ -1,45 +1,45 @@
-var current_location;
 
-$(document).ready(function() {
-     $.ajax({
-        type: "GET",
-        url: "/get_location",
-        success: response => {
-            current_location = response.current_location;
-                displayFolders();
-                displayFiles();
-        }
-    });
-
-});
-
-
-function displayFiles(){
+function refreshCurrentFolder(){
         $.ajax({
-            type: "POST",
-            url: "/get_files",
-            data: {'currentLocation': current_location},
-            success: function(response){
-				$.each(response.list_of_files, function(index, value){
-					var div = $("<div class='fileDiv'></div>")
-					var a = $("<a data-type = 'file' href='#'>" + value + "</a>")
-					div.append(a)
-					$("#files").append(div);
-				})
-				addLinksToFiles();
-			}
-            })
-        };
+            type: "GET",
+            url: "/get_location",
+            success: response => {
+                $("#currentPath").html(response.current_location);
+            }
+        });
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
 function displayFolders(){
 $.ajax({
-    type: "POST",
+    type: "GET",
     url: "/get_folders",
-    data: {'currentLocation': current_location},
-    success: function(response){
-        $.each(response.list_of_folders, function(index, value){
+    success: function(data){
+        $.each(data.list_of_folders, function(index, value){
             var div = $("<div class='folderDiv'></div>")
             var p = $("<p style='color:red;cursor:pointer;' data-type = 'folder' style='display: inline;'>" + value + "</p>")
             var a = $("<a href=compress_folder/" + value +" style='display: inline;'>ZIP</a>")

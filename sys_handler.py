@@ -1,10 +1,10 @@
 import os
 
-def get_current_folder():
+def get_folder_dict(location):
     folder = dict()
     folder['folders'] = list()
     folder['files'] = list()
-    for word in os.listdir():
+    for word in os.listdir(location):
         if(word[0] != '.'):
             if '.' in word:
                 folder['files'].append(word)

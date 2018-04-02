@@ -26,9 +26,19 @@ def test():
     return jsonify({"value": "key"})
 
 
-@app.route("/get_folders")
+@app.route("/get_folders", methods=['POST'])
 def get_folders():
-    return jsonBuilder.get_folders()
+    location = request.form['currentLocation']
+    list_of_folders = sys_handler.get_folder_dict(location)['folders']
+    print(list_of_folders)
+    return jsonBuilder.get_folders(list_of_folders)
+
+
+@app.route("/get_files", methods=['POST'])
+def get_files():
+    location = request.form['currentLocation']
+    list_of_files = sys_handler.get_folder_dict(location)['files']
+    return jsonBuilder.get_files(list_of_files)
 
 
 #---------------------------------------------------------------------------------------------------------
@@ -43,11 +53,6 @@ def get_location():
     return jsonBuilder.get_location()
 
 
-@app.route("/get_files")
-def get_files():
-    return jsonBuilder.get_files()
-
-
 @app.route("/download_file/<path>")
 def DownloadLogFile (path):
     realpath = path.replace("!", "/")
@@ -55,10 +60,6 @@ def DownloadLogFile (path):
         return send_from_directory(os.getcwd(), realpath, as_attachment=True)
     except Exception as e:
         print(e)
-
-@app.route("/get_folders")
-def get_folders():
-    return jsonBuilder.get_folders()
 
 
 @app.route("/move_back")
