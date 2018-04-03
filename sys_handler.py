@@ -15,10 +15,13 @@ def get_folder_dict(location):
 
 def get_files_with_stat(location):
     files = get_folder_dict(location)['files']
-    dicty = dict()
+    lista = list()
     for file in files:
-        dicty[file] = os.stat(location + "/" + file).st_size
-    return dicty
+        dicty = dict()
+        dicty["name"] = file
+        dicty["size"] = os.stat(location + "/" + file).st_size
+        lista.append(dicty)
+    return lista
 
 
 def get_current_path():

@@ -17,13 +17,15 @@ $(document).ready(function() {
 function displayFiles(){
         $.ajax({
             type: "POST",
-            url: "/get_files",
+            url: "/get_files_with_size",
             data: {'currentLocation': currentLocation},
             success: function(response){
-				$.each(response.list_of_files, function(index, value){
+				$.each(response, function(index, value){
 					var div = $("<div class='fileDiv'></div>")
-					var a = $("<a data-type = 'file' href='#'>" + value + "</a>")
+					var a = $("<a data-type = 'file' href='#'>" + value.name + "</a>")
+					var p = $("<p data-type = 'fileSize' >" + (value.size + 0.0) / 1024 + "mb" +"</p>")
 					div.append(a)
+					div.append(p)
 					$("#files").append(div);
 				})
 				addLinksToFiles();

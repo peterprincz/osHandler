@@ -17,8 +17,14 @@ def get_folders():
     location = request.form['currentLocation']
     list_of_folders = sys_handler.get_folder_dict(location)['folders']
     list_of_folders.sort()
-    sys_handler.get_file_dict(location)
     return jsonBuilder.folders_to_json(list_of_folders)
+
+
+@app.route("/get_files_with_size", methods=['POST'])
+def get_files_with_size():
+    location = request.form['currentLocation']
+    dicty = sys_handler.get_files_with_stat(location)
+    return jsonify(dicty)
 
 
 @app.route("/get_files", methods=['POST'])
