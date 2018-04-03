@@ -1,16 +1,16 @@
-var current_location;
+var currentLocation;
+var lastLocation;
 
 $(document).ready(function() {
      $.ajax({
         type: "GET",
         url: "/get_location",
         success: response => {
-            current_location = response.current_location;
+            currentLocation = response.current_location;
                 displayFolders();
                 displayFiles();
         }
     });
-
 });
 
 
@@ -18,7 +18,7 @@ function displayFiles(){
         $.ajax({
             type: "POST",
             url: "/get_files",
-            data: {'currentLocation': current_location},
+            data: {'currentLocation': currentLocation},
             success: function(response){
 				$.each(response.list_of_files, function(index, value){
 					var div = $("<div class='fileDiv'></div>")
@@ -37,7 +37,7 @@ function displayFolders(){
 $.ajax({
     type: "POST",
     url: "/get_folders",
-    data: {'currentLocation': current_location},
+    data: {'currentLocation': currentLocation},
     success: function(response){
         $.each(response.list_of_folders, function(index, value){
             var div = $("<div class='folderDiv'></div>")
@@ -55,7 +55,7 @@ function addLinksToFiles(){
     let list_of_files = $("[data-type='file']")
     let char = '/'
     $.each(list_of_files, function(index, value){
-        var formattedLocation = current_location
+        var formattedLocation = currentLocation
         for(let i = 0;i < formattedLocation.length; i ++){
             formattedLocation = formattedLocation.replace(char, '!')
         }
@@ -67,10 +67,9 @@ function addLinksToFiles(){
 
 function addLinksToFolders(){
     folderDivs = $($("#folders").children())
-    console.log(folderDivs);
     $.each(folderDivs, function(index, value){
         $(value).click(function(){
-            current_location = current_location + "/" + $(value).children()[0].innerHTML
+            currentLocation = currentLocation + "/" + $(value).children()[0].innerHTML
             refreshTable();
         })
     })
@@ -78,12 +77,12 @@ function addLinksToFolders(){
 
 
 function moveBack(){
-    if(current_location == "/home"){
+    if(currentLocation == "/home"){
         return
     }
-    for(let i = current_location.length - 1;i > 0;i--){
-    	if(current_location[i] == "/"){
-	    	current_location = current_location.substring(0, i);
+    for(let i = currentLocation.length - 1;i > 0;i--){
+    	if(currentLocation[i] == "/"){
+	    	currentLocation = currentLocation.substring(0, i);
 	    	refreshTable();
 		    break;
         }
@@ -91,13 +90,12 @@ function moveBack(){
 }
 
 
-    function addCompress(){
-        var char = "/"
-        var formattedLocation = current_location.substring(1, current_location.length)
-        for(let i = 0;i < formattedLocation.length; i ++){
-            formattedLocation = formattedLocation.replace(char, '!')
-        }
-        $("#compresser").attr("href", "/compress_folder/" + '!' + formattedLocation);
+function addCompress(){
+    var formattedLocation = currentLocation.substring(1, currentLocation.length)
+    for(let i = 0;i < formattedLocation.length; i ++){
+        formattedLocation = formattedLocation.replace("/", '!')
+    }
+    $("#compresser").attr("href", "/compress_folder/" + '!' + formattedLocation);
 }
 
 function refreshTable(){

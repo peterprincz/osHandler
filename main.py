@@ -16,35 +16,39 @@ def index():
 def get_folders():
     location = request.form['currentLocation']
     list_of_folders = sys_handler.get_folder_dict(location)['folders']
-    return jsonBuilder.get_folders(list_of_folders)
+    list_of_folders.sort()
+    sys_handler.get_file_dict(location)
+    return jsonBuilder.folders_to_json(list_of_folders)
 
 
 @app.route("/get_files", methods=['POST'])
 def get_files():
     location = request.form['currentLocation']
     list_of_files = sys_handler.get_folder_dict(location)['files']
-    return jsonBuilder.get_files(list_of_files)
+    list_of_files.sort()
+    return jsonBuilder.files_to_json(list_of_files)
 
 
 @app.route("/get_location")
 def get_location():
-    return jsonBuilder.get_location()
+    path =  sys_handler.get_current_path()
+    return jsonBuilder.location_to_json(path)
 
 
 @app.route("/download_file/<path>")
 def DownloadLogFile (path):
-    foldername = ""
-    filename = ""
-    realpath = path.replace("!", "/")
-    for x in range(len(realpath) - 1, -1, -1):
-        if realpath[x] == "/":
-            foldername = realpath[0:x + 1]
-            filename = realpath[x + 1:]
+    folder_name = None
+    file_name = None
+    real_path = path.replace("!", "/")
+    for x in range(len(real_path) - 1, -1, -1):
+        if real_path[x] == "/":
+            folder_name = real_path[0:x + 1]
+            file_name = real_path[x + 1:]
             break
-    if foldername == "" or filename == "":
-        print("foldername or filename is not found")
+    if folder_name is None or file_name is None:
+        print("folder name or file name is not correct")
     try:
-        return send_from_directory(foldername, filename, as_attachment=True)
+        return send_from_directory(folder_name, file_name, as_attachment=True)
     except Exception as e:
         print(e)
 
@@ -54,25 +58,18 @@ def compress_folder(path):
     path = path.replace("!", "/")
     char_index = None
     for i in range(len(path) - 1, 0, -1):
-        if (path[i] == "/"):
+        if path[i] == "/":
             char_index = i
             break
+    if char_index is None:
+        print("Invalid path")
     return send_file(shutil.make_archive(path[char_index + 1:], "zip", path), as_attachment=True)
 
 
-@app.route("/api_index")
-def api_index():
-    result = {"location" : current_url + "/get_location",
-              "get_files": current_url + "/get_files",
-              "get_folders": current_url + "/get_folders",
-              "move back" : current_url + "/move_back"}
-    return jsonify(result)
-
-
 if __name__ == "__main__":
-    app.secret_key = "app_magic"  # Change the content of this string
+    app.secret_key = "app_magic"
     app.run(
-        host = '0.0.0.0',
+        host='0.0.0.0',
         debug=True,
         port=5000
     )
