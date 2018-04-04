@@ -104,20 +104,17 @@ function displayLocation(){
 
 
 function moveUp(){
-    lastLocations.push(currentLocation)
     if(currentLocation == "/"){
-        currentLocation = "/"
-        refreshTable();
-        return
+        return;
     }
+    lastLocations.push(currentLocation)
     for(let i = currentLocation.length - 1;i > -1;i--){
-        if(i == 0){
-            if(currentLocation[i] == "/"){
-                currentLocation = "/"
-                return;
-            }
-        }
     	if(currentLocation[i] == "/"){
+    	    if(i == 0){
+    	        currentLocation = "/"
+    	        refreshTable();
+    	        return;
+    	    }
 	    	currentLocation = currentLocation.substring(0, i);
 	    	refreshTable();
 		    return;
