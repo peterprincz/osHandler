@@ -5,10 +5,10 @@ def get_folder_dict(location):
     folder['folders'] = list()
     folder['files'] = list()
     for word in os.listdir(location):
-        if(word[0] != '.'):
-            if '.' in word:
-                folder['files'].append(word)
-            else:
+        if os.path.isfile(location + "/" + word):
+            folder['files'].append(word)
+        else:
+            if word[0] != '.':
                 folder['folders'].append(word)
     return folder
 
