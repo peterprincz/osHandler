@@ -9,9 +9,18 @@ $(document).ready(function() {
             currentLocation = response.current_location;
                 displayFolders();
                 displayFiles();
+                displayIpAddress()
         }
     });
 });
+
+function displayIpAddress(){
+    $.ajax({
+        type:"GET",
+        url : "/get_ip",
+        success : response => $("#ipAdress").html('(' + response.ip_address + ')')
+    })
+}
 
 
 function displayFiles(){

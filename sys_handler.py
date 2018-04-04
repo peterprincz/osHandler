@@ -1,5 +1,6 @@
 import os
 import operator
+import socket
 
 
 def get_folder_dict(location):
@@ -46,3 +47,15 @@ def move_back():
 def move_into_folder(subfolder):
     folder_to_move_into = get_current_path() + "/" + subfolder
     os.chdir(folder_to_move_into)
+
+
+def get_ip():
+    s = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
+    try:
+        s.connect(("10.255.255.255", 1))
+        IP = s.getsockname()[0]
+    except:
+        IP = "127.0.0.1"
+    finally:
+        s.close()
+    return IP

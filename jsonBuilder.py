@@ -15,3 +15,7 @@ def folders_to_json(list_of_folders):
 def files_to_json(list_of_files):
     result = {"list_of_files": list_of_files}
     return jsonify(result)
+
+def ip_to_json(ip_address):
+    result = {'ip_address' : ip_address}
+    return jsonify(result)
