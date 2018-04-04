@@ -55,7 +55,7 @@
                         <!-- <li><a href="#"><span class="fa fa-crosshairs fa-lg"></span></a></li> -->
                         <!-- <li><a href="#"><span class="fa fa-ellipsis-v fa-lg"></span></a></li> -->
                         <li><a id="compresser" href="#"><span class="fa fa-lg fa-server"></span></a></li>
-                        <!-- <li><a href="#"><span class="fa fa-lg fa-minus"></span></a></li> -->
+                        <li><a  href="/log_out"><span class="fa fa-lg fa-minus"></span></a></li>
                         <!-- <li><a href="#"><span class="fa fa-lg fa-window-maximize"></span></a></li> -->
                         <!-- <li><a href="#"><span class="fa fa-lg fa-times"></span></a></li> -->
                     </ul>
@@ -64,8 +64,9 @@
                     <!-- Collect the nav links, forms, and other content for toggling -->
                     <div id="pb-filemng-navigation">
                         <ul class="nav navbar-nav">
-                            <li><a onclick="moveBack()" href="#"><span class="fa fa-chevron-left fa-lg"></span></a></li>
-                            <li></li>
+                            <li><a onclick="moveUp()" href="#"><span class="fa fa-chevron-left fa-lg"></span></a></li>
+                            <li><a onclick="moveBack()" href="#"><span class="fa fa-chevron-right fa-lg"></span></a></li>
+                            <li><p id="currentLocation"></p></li>
                         </ul>
                     </div>
                     <!-- /.navbar-collapse -->

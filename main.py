@@ -23,6 +23,12 @@ def login():
     return redirect("/login_page")
 
 
+@app.route("/log_out")
+def log_out():
+    del session['logged_in']
+    return redirect("/")
+
+
 @app.route("/login_page")
 def login_page():
     list_of_messages = ['LEPJ BE HA TUDSZ',

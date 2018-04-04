@@ -1,5 +1,5 @@
 var currentLocation;
-var lastLocation;
+var lastLocations = []
 
 $(document).ready(function() {
      $.ajax({
@@ -7,9 +7,10 @@ $(document).ready(function() {
         url: "/get_location",
         success: response => {
             currentLocation = response.current_location;
-                displayFolders();
-                displayFiles();
-                displayIpAddress()
+            displayFolders();
+            displayFiles();
+            displayIpAddress()
+            displayLocation()
         }
     });
 });
@@ -21,6 +22,7 @@ function displayIpAddress(){
         success : response => $("#ipAdress").html('(' + response.ip_address + ')')
     })
 }
+
 
 
 function displayFiles(){
@@ -81,6 +83,7 @@ function addLinksToFolders(){
     $.each(folderDivs, function(index, value){
         $(value).click(function(){
             currentLocation = currentLocation + "/" + $(value).children()[0].innerHTML
+            lastLocations = []
             refreshTable();
         })
     })
@@ -88,6 +91,20 @@ function addLinksToFolders(){
 
 
 function moveBack(){
+    let a = lastLocations.pop();
+    if(a != null){
+        currentLocation = a
+    }
+    refreshTable();
+}
+
+function displayLocation(){
+    $("#currentLocation").html(currentLocation)
+}
+
+
+function moveUp(){
+    lastLocations.push(currentLocation)
     if(currentLocation == "/"){
         currentLocation = "/"
         refreshTable();
@@ -123,5 +140,6 @@ function refreshTable(){
     displayFolders();
     displayFiles();
     addCompress()
+    displayLocation()
 }
 
