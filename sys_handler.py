@@ -1,36 +1,36 @@
 import os
+import operator
+
 
 def get_folder_dict(location):
-    folder = dict()
-    folder['folders'] = list()
-    folder['files'] = list()
+    base_folder = dict()
+    base_folder['folders'] = list()
+    base_folder['files'] = list()
     for word in os.listdir(location):
+        if word[0] == '.':
+            continue
         if os.path.isfile(location + "/" + word):
-            folder['files'].append(word)
+            base_folder['files'].append(word)
         else:
-            if word[0] != '.':
-                folder['folders'].append(word)
-    return folder
+            base_folder['folders'].append(word)
+    return base_folder
 
 
 def get_files_with_stat(location):
     files = get_folder_dict(location)['files']
-    lista = list()
+    list_of_file_dicts = list()
     for file in files:
-        dicty = dict()
-        dicty["name"] = file
-        dicty["size"] = os.stat(location + "/" + file).st_size
-        lista.append(dicty)
-    return lista
+        file_dict = dict()
+        file_dict["name"] = file
+        file_dict["size"] = os.stat(location + "/" + file).st_size
+        list_of_file_dicts.append(file_dict)
+    list_of_file_dicts.sort(key=operator.itemgetter("name"))
+    return list_of_file_dicts
 
 
 def get_current_path():
     return os.getcwd()
 
-
-def compress_folder(foldername, path):
-    print("zipping   " + "zip -r " + "a" + ".zip " + path)
-    os.system("zip -r " + foldername + ".zip . -i " + path)
 
 def move_back():
     current_path = get_current_path()

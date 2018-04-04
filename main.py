@@ -15,6 +15,7 @@ def index():
 @app.route("/get_folders", methods=['POST'])
 def get_folders():
     location = request.form['currentLocation']
+    print(location)
     list_of_folders = sys_handler.get_folder_dict(location)['folders']
     list_of_folders.sort()
     return jsonBuilder.folders_to_json(list_of_folders)
@@ -23,8 +24,8 @@ def get_folders():
 @app.route("/get_files_with_size", methods=['POST'])
 def get_files_with_size():
     location = request.form['currentLocation']
-    dicty = sys_handler.get_files_with_stat(location)
-    return jsonify(dicty)
+    list_of_file_dicts = sys_handler.get_files_with_stat(location)
+    return jsonify(list_of_file_dicts)
 
 
 @app.route("/get_files", methods=['POST'])
@@ -37,12 +38,12 @@ def get_files():
 
 @app.route("/get_location")
 def get_location():
-    path =  sys_handler.get_current_path()
+    path = sys_handler.get_current_path()
     return jsonBuilder.location_to_json(path)
 
 
 @app.route("/download_file/<path>")
-def DownloadLogFile (path):
+def download_file(path):
     folder_name = None
     file_name = None
     real_path = path.replace("!", "/")
