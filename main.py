@@ -6,7 +6,6 @@ import shutil
 import socket
 
 app = Flask(__name__)
-current_url = "http://0.0.0.0:5000"
 
 
 @app.route("/get_ip")
@@ -110,9 +109,12 @@ def compress_folder(path):
 
 if __name__ == "__main__":
     app.secret_key = "app_magic"
+    msg = "The server is reachable on the :" + sys_handler.get_ip() + " address!"
+    app.logger.critical(msg)
     app.run(
         host='0.0.0.0',
         debug=True,
-        threaded=True,
         port=5000
     )
+
+

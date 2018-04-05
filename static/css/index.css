@@ -1,23 +1,38 @@
-.currentFolder{
+body{
+    background-color:#d9edf7;
+}
+
+.folder{
+    color:red;
+    cursor:pointer;
+    display: inline;
+}
+.folder:hover{
+    text-decoration:underline;
+    color:#4b38ce
+}
+
+.file{
+    color:#4b38ce;
+    cursor:pointer;
+}
+
+.file:hover{
     color:red;
 }
-body{
-    background-color:rgba(66, 66, 66, 0.21);
-}
-.leftPanel{
-    float: left;
-    font-size:25px;
-    background-color: rgba(92, 64, 64, 0.28);
-    min-width: 50%;
-    max-width: 50%;
-    min-height:100%;
 
+#panel{
+    background-color:#f2f1f0;
 }
-.rightPanel{
-    float:left;
-    font-size:20px;
-    background-color: rgba(68, 24, 183, 0.34);
-    min-width: 50%;
-    max-width: 50%;
-    min-height:100%;
+#navbar{
+    background-color:rgba(71, 70, 64, 0.39);
+}
+.folderDiv{
+    margin-top: 10px;
+    margin-bottom: 10px;
+}
+
+.fileDiv{
+    margin-top: 5px;
+    margin-bottom: 5px;
 }

@@ -7,6 +7,7 @@
 
     <link rel="stylesheet" type="text/css" href="/static/bootstrap/css/bootstrap.min.css" />
     <link rel="stylesheet" type="text/css" href="/static/font-awesome/css/font-awesome.min.css" />
+    <link rel="stylesheet" type="text/css" href="/static/css/index.css" />
 
     <script type="text/javascript" src="/static/js/jquery-1.10.2.min.js"></script>
     <script type="text/javascript" src="/static/bootstrap/js/bootstrap.min.js"></script>
@@ -29,7 +30,7 @@
     <div class="row">
         <div class="col-md-8 col-md-offset-2">
             <nav class="navbar navbar-default pb-filemng-navbar">
-                <div class="container-fluid">
+                <div id="navbar" class="container-fluid">
                     <!-- Navigation -->
                     <div class="navbar-header">
                         <!--<button type="button" class="pull-left navbar-toggle collapsed treeview-toggle-btn" data-toggle="collapse" data-target="#treeview-toggle" aria-expanded="false">
@@ -74,7 +75,7 @@
                 </div>
                 <!-- /.container-fluid -->
             </nav>
-            <div class="panel panel-default">
+            <div id="panel" class="panel panel-default">
                 <div class="panel-body pb-filemng-panel-body">
                     <div class="row">
                         <div id="folders" class="col-sm-3 col-md-4 pb-filemng-template-treeview">
@@ -123,6 +124,10 @@
 
     .pb-filemng-body-folders > img:hover {
 	    cursor: pointer;
+    }
+
+    .pb-filemng-template-body{
+    	border-left: 1px solid gray;
     }
 
     .btn-align {
