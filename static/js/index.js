@@ -34,7 +34,15 @@ function displayFiles(){
 				$.each(response, function(index, value){
 					var div = $("<div class='fileDiv'></div>")
 					var a = $("<a class='file' data-type='file' href='#'>" + value.name + "</a>")
-					var p = $("<p data-type = 'fileSize' >" + (value.size + 0.0) / 1024 + "mb" +"</p>")
+					if((value.size / 1024) / 1024 > 1){
+					    var p = $("<p data-type = 'fileSize' >" + (((value.size + 0.0) / 1024) / 1024).toFixed(2) + " Mb" +"</p>")
+					} else {
+					    if(value.size / 1024 > 1){
+					        var p = $("<p data-type = 'fileSize' >" + ((value.size + 0.0) / 1024).toFixed(2) + " Kb" +"</p>")
+					    } else {
+					        var p = $("<p data-type = 'fileSize' >" + (value.size) + " Bytes </p>")
+					    }
+					}
 					div.append(a)
 					div.append(p)
 					$("#files").append(div);
@@ -54,7 +62,7 @@ $.ajax({
     success: function(response){
         $.each(response.list_of_folders, function(index, value){
             var div = $("<div class='folderDiv'></div>")
-            var p = $("<p class='folder' data-type='folder'>" + value + "</p>")
+            var p = $("<p class='folder' data-type='folder'>" + value+ "</p>")
             div.append(p)
             $("#folders").append(div)
         })
