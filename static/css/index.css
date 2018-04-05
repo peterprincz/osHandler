@@ -36,3 +36,10 @@ body{
     margin-top: 5px;
     margin-bottom: 5px;
 }
+.path{
+    display:inline;
+}
+.path:hover{
+   color:red;
+   cursor:pointer;
+}

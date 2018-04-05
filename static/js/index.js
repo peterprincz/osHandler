@@ -99,7 +99,25 @@ function moveBack(){
 }
 
 function displayLocation(){
-    $("#currentLocation").html(currentLocation)
+    $("#currentLocation").html("")
+    var listOfFolders = currentLocation.split("/")
+    listOfFolders[0] = "/"
+    var fullroute = $("<div></div>")
+    let folder = $("<p class='path'>" + listOfFolders[0] + "</p>")
+    fullroute.append(folder)
+    for(let i = 1;i < listOfFolders.length;i++){
+        let folder = $("<p class='path'>" + listOfFolders[i] + "/</p>")
+        $(folder).click(function(){
+            lastLocations = []
+            lastLocations.push(currentLocation)
+            let b = "/"
+            b += currentLocation.split("/").slice(0, i +  1).join('/').substring(1)
+            currentLocation = b;
+            refreshTable();
+        })
+        fullroute.append(folder)
+    }
+    $("#currentLocation").append(fullroute)
 }
 
 
