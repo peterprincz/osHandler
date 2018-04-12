@@ -13,6 +13,11 @@ $(document).ready(function() {
             displayLocation()
         }
     });
+    $("#uploadFileButton").click(function (e) {
+    var file = $("#uploadFile")[0].files[0];
+    var upload = new Upload(file);
+    upload.doUpload();
+    });
 });
 
 function displayIpAddress(){
@@ -99,33 +104,44 @@ function addLinksToFolders(){
 
 
 function moveBack(){
-    let a = lastLocations.pop();
-    if(a != null){
-        currentLocation = a
+    let lastLocation = lastLocations.pop();
+    if(lastLocation == currentLocation || lastLocation == null){
+        return;
     }
+    currentLocation = lastLocation
     refreshTable();
 }
 
 function displayLocation(){
     $("#currentLocation").html("")
     var listOfFolders = currentLocation.split("/")
-    listOfFolders[0] = "/"
-    var fullroute = $("<div></div>")
-    let folder = $("<p class='path'>" + listOfFolders[0] + "</p>")
-    fullroute.append(folder)
+    console.log(listOfFolders)
+    if(listOfFolders[1] == ""){
+        console.log("true")
+        listOfFolders.splice(1, 1)
+    }
+    var fullRouteDiv = $("<div></div>")
+    //For handling the route folder (/)
+    let rootFolder = $("<p class='path'>/</p>")
+    rootFolder.click(function(){
+        lastLocations = []
+        lastLocations.push(currentLocation)
+        currentLocation = "/"
+        refreshTable()
+    })
+    fullRouteDiv.append(rootFolder)
+    //For all else
     for(let i = 1;i < listOfFolders.length;i++){
         let folder = $("<p class='path'>" + listOfFolders[i] + "/</p>")
         $(folder).click(function(){
             lastLocations = []
             lastLocations.push(currentLocation)
-            let b = "/"
-            b += currentLocation.split("/").slice(0, i +  1).join('/').substring(1)
-            currentLocation = b;
+            currentLocation = "/" + currentLocation.split("/").slice(0, i +  1).join('/').substring(1);
             refreshTable();
         })
-        fullroute.append(folder)
+        fullRouteDiv.append(folder)
     }
-    $("#currentLocation").append(fullroute)
+    $("#currentLocation").append(fullRouteDiv)
 }
 
 

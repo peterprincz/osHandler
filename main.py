@@ -1,11 +1,18 @@
+from werkzeug.utils import secure_filename
+
 import jsonBuilder
 import sys_handler
 import random
 from flask import Flask, render_template, redirect, request, session, jsonify, send_file, send_from_directory
 import shutil
-import socket
+import os
 
 app = Flask(__name__)
+
+
+@app.route("/js")
+def js():
+    return render_template("js.html")
 
 
 @app.route("/get_ip")
@@ -42,8 +49,8 @@ def login_page():
 
 @app.route("/")
 def index():
-    if "logged_in" not in session:
-        return redirect("login_page")
+    #if "logged_in" not in session:
+    #    return redirect("login_page")
     return render_template("index2.html")
 
 
@@ -107,6 +114,18 @@ def compress_folder(path):
     return send_file(shutil.make_archive(path[char_index + 1:], "zip", path), as_attachment=True)
 
 
+@app.route('/upload_file/<path>', methods=['GET', 'POST'])
+def upload_file(path):
+    real_path = path.replace("!", "/")
+    if request.method == 'POST':
+        file = request.files['file']
+        if file:
+            filename = secure_filename(file.filename)
+            file.save(os.path.join(real_path, filename))
+            return ('', 204)
+    return ('', 204)
+
+
 if __name__ == "__main__":
     app.secret_key = "app_magic"
     msg = "The server is reachable on the :" + sys_handler.get_ip() + " address!"
@@ -114,6 +133,7 @@ if __name__ == "__main__":
     app.run(
         host='0.0.0.0',
         debug=True,
+        threaded=True,
         port=5000
     )
 
