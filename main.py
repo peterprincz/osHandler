@@ -35,28 +35,14 @@ def log_out():
     return redirect("/")
 
 
-@app.route("/login_page")
-def login_page():
-    list_of_messages = ['LEPJ BE HA TUDSZ',
-                        "TUDOD A JELSZÓT?",
-                        "TALÁN HA SZÉPEN KÉRED",
-                        "KÉNE A JELSZÓ MI",
-                        "YOU SHALL NOT PASS",
-                        "EZEK ITT TITKOS FÁLJOK",
-                        ]
-    return render_template("login.html", message=list_of_messages[random.randrange(len(list_of_messages) - 1)])
-
-
 @app.route("/")
 def index():
-    #if "logged_in" not in session:
-    #    return redirect("login_page")
-    return render_template("index2.html")
+    return app.send_static_file('index2.html')
 
 
 @app.route("/get_folders", methods=['POST'])
 def get_folders():
-    location = request.form['currentLocation']
+    location = request.json['currentLocation']
     list_of_folders = sys_handler.get_folder_dict(location)['folders']
     list_of_folders.sort()
     return jsonBuilder.folders_to_json(list_of_folders)
@@ -71,13 +57,13 @@ def get_files_with_size():
 
 @app.route("/get_files", methods=['POST'])
 def get_files():
-    location = request.form['currentLocation']
+    location = request.json['currentLocation']
     list_of_files = sys_handler.get_folder_dict(location)['files']
     list_of_files.sort()
     return jsonBuilder.files_to_json(list_of_files)
 
 
-@app.route("/get_location")
+@app.route("/get_root_path")
 def get_location():
     path = sys_handler.get_current_path()
     return jsonBuilder.location_to_json(path)

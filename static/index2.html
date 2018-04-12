@@ -14,26 +14,17 @@
     <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.4/angular.min.js"></script>
 
     <script src="/static/js/jquery.js"></script>
-    <script src="/static/js/upload.js"></script>
-    <script src ="/static/js/index.js"></script>
+    <!-- <script src="/static/js/upload.js"></script>
+         <script src ="/static/js/index.js"></script> -->
     <script src ="/static/js/angular.js"></script>
 
 </head>
-<body>
+<body ng-app="myApp">
 
 <div class="container">
 
-    <div ng-app="myApp" ng-controller="myCtrl">
-
-        First Name: <input type="text" ng-model="firstName"><br>
-        Last Name: <input type="text" ng-model="lastName"><br>
-        <br>
-        Full Name: {{firstName + " " + lastName}}
-
-    </div>
-
-<div class="page-header">
-    <h1>Home server<small id="ipAdress"></small></h1>
+<div ng-controller="headerCtrl" class="page-header">
+    <h1>Home server <small>{{ipAddress}}</small></h1>
 </div>
 
 <!-- File Manager - START -->
@@ -85,14 +76,36 @@
                     <!-- /.navbar-collapse -->
 
                 </div>
-                <!-- /.container-fluid -->
+                <!--
+                    var div = $("<div class='fileDiv'></div>")
+					var a = $("<a class='file' data-type='file' href='#'>" + value.name + "</a>")
+					if((value.size / 1024) / 1024 > 1){
+					    var p = $("<p data-type = 'fileSize' >" + (((value.size + 0.0) / 1024) / 1024).toFixed(2) + " Mb" +"</p>")
+					} else {
+					    if(value.size / 1024 > 1){
+					        var p = $("<p data-type = 'fileSize' >" + ((value.size + 0.0) / 1024).toFixed(2) + " Kb" +"</p>")
+					    } else {
+					        var p = $("<p data-type = 'fileSize' >" + (value.size) + " Bytes </p>")
+					    }
+					}
+                /.container-fluid -->
             </nav>
             <div id="panel" class="panel panel-default">
-                <div class="panel-body pb-filemng-panel-body">
+                <div ng-controller="fileCtrl" class="panel-body pb-filemng-panel-body">
                     <div class="row">
-                        <div id="folders" class="col-sm-3 col-md-4 pb-filemng-template-treeview">
+                        <div class="col-sm-3 col-md-4 pb-filemng-template-treeview">
+                            <div ng-repeat="folder in directoryList">
+                                <div class="folderDiv">
+                                    <p class="folder" data-type="folder">{{ folder }}</p>
+                                </div>
+                            </div>
                         </div>
                         <div id="files" class="col-sm-9 col-md-8 pb-filemng-template-body">
+                            <div ng-repeat="file in fileList">
+                                <div class="fileDiv" class='file' data-type='file' href='#'>
+                                    <a class="file" href="#">{{ file }}</a>
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>
