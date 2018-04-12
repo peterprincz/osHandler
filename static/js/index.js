@@ -174,11 +174,11 @@ function addCompress(){
 }
 
 function refreshTable(){
-    $("#files").html(" ")
-    $("#folders").html(" ")
+    $("#files").html(" ");
+    $("#folders").html(" ");
     displayFolders();
     displayFiles();
-    addCompress()
+    addCompress();
     displayLocation()
 }
 

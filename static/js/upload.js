@@ -12,8 +12,8 @@ Upload.prototype.getName = function() {
     return this.file.name;
 };
 Upload.prototype.doUpload = function () {
-    var that = this;
-    var formData = new FormData();
+    let that = this;
+    let formData = new FormData();
 
     // add assoc key values, this will be posts values
     formData.append("file", this.file, this.getName());
