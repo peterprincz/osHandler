@@ -16,6 +16,7 @@ app.controller("fileCtrl", function($scope, $http){
         method: "GET",
     }).then(function successCallback(response) {
         $scope.currentLocation = response.data.root_location;
+        $scope.formattedLocation = response.data.root_location.replace(/\//g,'!');
         getFolders();
         getFiles();
     });

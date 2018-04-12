@@ -76,19 +76,6 @@
                     <!-- /.navbar-collapse -->
 
                 </div>
-                <!--
-                    var div = $("<div class='fileDiv'></div>")
-					var a = $("<a class='file' data-type='file' href='#'>" + value.name + "</a>")
-					if((value.size / 1024) / 1024 > 1){
-					    var p = $("<p data-type = 'fileSize' >" + (((value.size + 0.0) / 1024) / 1024).toFixed(2) + " Mb" +"</p>")
-					} else {
-					    if(value.size / 1024 > 1){
-					        var p = $("<p data-type = 'fileSize' >" + ((value.size + 0.0) / 1024).toFixed(2) + " Kb" +"</p>")
-					    } else {
-					        var p = $("<p data-type = 'fileSize' >" + (value.size) + " Bytes </p>")
-					    }
-					}
-                /.container-fluid -->
             </nav>
             <div id="panel" class="panel panel-default">
                 <div ng-controller="fileCtrl" class="panel-body pb-filemng-panel-body">
@@ -103,7 +90,8 @@
                         <div id="files" class="col-sm-9 col-md-8 pb-filemng-template-body">
                             <div ng-repeat="file in fileList">
                                 <div class="fileDiv" class='file' data-type='file' href='#'>
-                                    <a class="file" href="#">{{ file }}</a>
+                                    <a class="file"
+                                       href="{{'download_file/'+ formattedLocation + '!' + file}}">{{ file }}</a>
                                 </div>
                             </div>
                         </div>
