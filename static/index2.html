@@ -4,94 +4,103 @@
     <meta charset="utf-8" />
     <title>File Manager Template | PrepBootstrap</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-
     <link rel="stylesheet" type="text/css" href="/static/bootstrap/css/bootstrap.min.css" />
     <link rel="stylesheet" type="text/css" href="/static/font-awesome/css/font-awesome.min.css" />
     <link rel="stylesheet" type="text/css" href="/static/css/index.css" />
-
     <script type="text/javascript" src="/static/js/jquery-1.10.2.min.js"></script>
     <script type="text/javascript" src="/static/bootstrap/js/bootstrap.min.js"></script>
     <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.4/angular.min.js"></script>
-
     <script src="/static/js/jquery.js"></script>
-    <!-- <script src="/static/js/upload.js"></script>
-         <script src ="/static/js/index.js"></script> -->
+    <script src="/static/js/upload.js"></script>
     <script src ="/static/js/angular.js"></script>
-
 </head>
 <body ng-app="myApp">
-
 <div class="container">
-
-<div ng-controller="headerCtrl" class="page-header">
-    <h1>Home server <small>{{ipAddress}}</small></h1>
-</div>
-
-<!-- File Manager - START -->
-
-<div class="container pb-filemng-template">
-    <div class="row">
-        <div class="col-md-8 col-md-offset-2">
-            <nav class="navbar navbar-default pb-filemng-navbar">
-                <div id="navbar" class="container-fluid">
-                    <!-- Navigation -->
-                    <div class="navbar-header">
-                        <!--<button type="button" class="pull-left navbar-toggle collapsed treeview-toggle-btn" data-toggle="collapse" data-target="#treeview-toggle" aria-expanded="false">
-                            <span class="sr-only">Toggle navigation</span>
-                            <span class="icon-bar"></span>
-                            <span class="icon-bar"></span>
-                            <span class="icon-bar"></span>
-                        </button>
-
-                        <!--<button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#options" aria-expanded="false">
-                            <span class="sr-only">Toggle navigation</span>
-                            <span class="fa fa-gears"></span>
-                        </button> -->
-
-                        <!-- Search button -->
-                        <!-- <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#pb-filemng-navigation" aria-expanded="false">
-                        <!--     <span class="sr-only">Toggle navigation</span>
-                        <!--     <span class="fa fa-share"></span>
-                        <!-- </button> -->
+    <div ng-controller="headerCtrl" class="page-header">
+        <h1>Home server <small>{{ipAddress}}</small></h1>
+    </div>
+    <div ng-controller="fileCtrl" id ="file_ctrl" class="container pb-filemng-template">
+        <div id="myModal" class="modal fade" role="dialog">
+            <div class="modal-dialog">
+                <!-- Modal content-->
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal">&times;</button>
+                        <h4 class="modal-title">Modal Header</h4>
                     </div>
-
-                    <ul class="nav navbar-nav navbar-right" id="options">
-                        <!-- <li><a href="#"><span class="fa fa-crosshairs fa-lg"></span></a></li> -->
-                        <!-- <li><a href="#"><span class="fa fa-ellipsis-v fa-lg"></span></a></li> -->
-                        <li><a id="compresser" href="#"><span class="fa fa-lg fa-server"></span></a></li>
-                        <li><a href="/log_out"><span class="fa fa-lg fa-minus"></span></a></li>
-                        <li><a href="#"><span class="fa fa-lg fa-window-maximize"  data-toggle="modal" data-target="#myModal"></span></a></li>
-                        <!-- <li><a href="#"><span class="fa fa-lg fa-times"></span></a></li> -->
-                    </ul>
-
-
-                    <!-- Collect the nav links, forms, and other content for toggling -->
-                    <div id="pb-filemng-navigation">
-                        <ul class="nav navbar-nav">
-                            <li><a onclick="moveUp()" href="#"><span class="fa fa-chevron-left fa-lg"></span></a></li>
-                            <li><a onclick="moveBack()" href="#"><span class="fa fa-chevron-right fa-lg"></span></a></li>
-                            <li><p id="currentLocation"></p></li>
-                        </ul>
+                    <div class="modal-body">
+                        <input id="uploadFile" type="file" name="file" />
+                        <button ng-click="uploadFile()" id="uploadFileButton">Upload</button>
                     </div>
-                    <!-- /.navbar-collapse -->
-
+                    <div class="modal-footer">
+                        <button id="closeButton" type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                        <div id="progress-wrp">
+                            <div class="progress-bar"></div>
+                            <div class="status">0%</div>
+                        </div>
+                    </div>
                 </div>
-            </nav>
-            <div id="panel" class="panel panel-default">
-                <div ng-controller="fileCtrl" class="panel-body pb-filemng-panel-body">
-                    <div class="row">
-                        <div class="col-sm-3 col-md-4 pb-filemng-template-treeview">
-                            <div ng-repeat="folder in directoryList">
-                                <div class="folderDiv">
-                                    <p class="folder" data-type="folder">{{ folder }}</p>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-8 col-md-offset-2">
+                <nav class="navbar navbar-default pb-filemng-navbar">
+                    <div id="navbar" class="container-fluid">
+                        <div class="navbar-header">
+                        </div>
+                        <ul class="nav navbar-nav navbar-right" id="options">
+                            <li>
+                                <div>
+                                    <input type="text" placeholder="Search for something..." data-ng-model="fileSearcher">
+                                </div>
+                            </li>
+                            <li><a id="compresser" href="compress_folder/{{formattedLocation}}"><span class="fa fa-lg fa-server"></span></a></li>
+                            <li><a href="#"><span class="fa fa-lg fa-window-maximize"  data-toggle="modal" data-target="#myModal"></span></a></li>
+                            <!--<li><a href="/log_out"><span class="fa fa-lg fa-minus"></span></a></li> -->
+                        </ul>
+                        <div id="pb-filemng-navigation">
+                            <ul class="nav navbar-nav">
+                                <li><a ng-click="moveOutOfFolder()" href="#"><span class="fa fa-chevron-left fa-lg"></span></a></li>
+                                <li><a ng-click="moveBackAFolder()" href="#"><span class="fa fa-chevron-right fa-lg"></span></a></li>
+                                <li>
+                                    <p id="currentLocation"></p>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </nav>
+                <div id="panel" class="panel panel-default">
+                    <div class="panel-body pb-filemng-panel-body">
+                        <div class="row">
+                            <div class="col-sm-3 col-md-4 pb-filemng-template-treeview">
+                                <div ng-repeat="folder in directoryList | filter:fileSearcher">
+                                    <div class="folderDiv">
+                                        <p ng-click="moveIntoFolder(folder)" class="folder" data-type="folder">{{ folder }}</p>
+                                    </div>
                                 </div>
                             </div>
-                        </div>
-                        <div id="files" class="col-sm-9 col-md-8 pb-filemng-template-body">
-                            <div ng-repeat="file in fileList">
-                                <div class="fileDiv" class='file' data-type='file' href='#'>
-                                    <a class="file"
-                                       href="{{'download_file/'+ formattedLocation + '!' + file}}">{{ file }}</a>
+                            <div id="files" class="col-sm-9 col-md-8 pb-filemng-template-body">
+                                <div class="fileName">
+                                    <button ng-click="sortBy('name')">Name</button>
+                                    <span class="sortorder" ng-show="propertyName === 'name'" ng-class="{reverse: reverse}"></span>
+                                </div>
+                                <div class="fileSize">
+                                <button ng-click="sortBy('size')">Size</button>
+                                <span class="sortorder" ng-show="propertyName === 'size'" ng-class="{reverse: reverse}"></span>
+                                </div>
+                                <div ng-repeat="file in fileList | filter:fileSearcher | orderBy:propertyName:reverse">
+                                    <div class="fileDiv" class='file' data-type='file' href='#'>
+                                        <div class="fileName">
+                                            <a class="file"
+                                               href="{{'download_file/'+ formattedLocation + '!' + file.name}}">{{ file.name }}
+                                            </a>
+                                        </div>
+                                        <div class="fileSize">
+                                            <p>
+                                                {{ file.formatted_size }}
+                                            </p>
+                                        </div>
+                                    </div>
                                 </div>
                             </div>
                         </div>
@@ -101,47 +110,5 @@
         </div>
     </div>
 </div>
-
-
-<!-- Modal -->
-<div id="myModal" class="modal fade" role="dialog">
-  <div class="modal-dialog">
-
-    <!-- Modal content-->
-    <div class="modal-content">
-      <div class="modal-header">
-        <button type="button" class="close" data-dismiss="modal">&times;</button>
-        <h4 class="modal-title">Modal Header</h4>
-      </div>
-      <div class="modal-body">
-          <input id="uploadFile" type="file" name="file" />
-          <button id="uploadFileButton">Upload</button>
-      </div>
-      <div class="modal-footer">
-        <button id="closeButton" type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-          <div id="progress-wrp">
-          <div class="progress-bar"></div>
-          <div class="status">0%</div>
-    </div>
-      </div>
-    </div>
-
-  </div>
-</div>
-
-<style>
-
-</style>
-
-<!-- you need to include the shieldui css and js assets in order for the charts to work -->
-<!--<link rel="stylesheet" type="text/css" href="http://www.shieldui.com/shared/components/latest/css/light-bootstrap/all.min.css" />  -->
-<!--<script type="text/javascript" src="http://www.shieldui.com/shared/components/latest/js/shieldui-all.min.js"></script>  -->
-<!--<script type="text/javascript" src="http://www.prepbootstrap.com/Content/data/fileManagerData.js"></script>  -->
-
-
-<!-- File Manager - END -->
-
-</div>
-
 </body>
 </html>

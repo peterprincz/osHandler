@@ -1,6 +1,14 @@
 body{
     background-color:#d9edf7;
 }
+.fileDiv{
+    overflow: hidden;
+    border-bottom: 1px solid grey;
+}
+.fileName{
+    float: left;
+    width: 80%;
+}
 
 .folder{
     color:red;
@@ -30,6 +38,8 @@ body{
 .folderDiv{
     margin-top: 10px;
     margin-bottom: 10px;
+    border-bottom: 1px solid grey;
+
 }
 
 .fileDiv{

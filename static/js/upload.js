@@ -1,3 +1,5 @@
+
+
 var Upload = function (file) {
     this.file = file;
 };
@@ -11,20 +13,16 @@ Upload.prototype.getSize = function() {
 Upload.prototype.getName = function() {
     return this.file.name;
 };
-Upload.prototype.doUpload = function () {
+Upload.prototype.doUpload = function (path) {
     let that = this;
     let formData = new FormData();
 
     // add assoc key values, this will be posts values
     formData.append("file", this.file, this.getName());
     formData.append("upload_file", true);
-    let formattedLocation = currentLocation
-    for(let i = 0;i < formattedLocation.length; i ++){
-        formattedLocation = formattedLocation.replace("/", '!')
-        }
     $.ajax({
         type: "POST",
-        url: "/upload_file/" + formattedLocation ,
+        url: "/upload_file/" + path ,
         xhr: function () {
             var myXhr = $.ajaxSettings.xhr();
             if (myXhr.upload) {
@@ -35,8 +33,8 @@ Upload.prototype.doUpload = function () {
         success: function (data) {
         setTimeout(function(){
             $("#closeButton").click();
-            refreshTable();
-            }, 1500);
+            angular.element(document.getElementById('file_ctrl')).scope().refreshWindow();
+        }, 1500);
         },
         error: function (error) {
             // handle error

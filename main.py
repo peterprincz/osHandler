@@ -50,10 +50,9 @@ def get_folders():
 
 @app.route("/get_files_with_size", methods=['POST'])
 def get_files_with_size():
-    location = request.form['currentLocation']
+    location = request.json['currentLocation']
     list_of_file_dicts = sys_handler.get_files_with_stat(location)
-    return jsonify(list_of_file_dicts)
-
+    return jsonBuilder.detailed_files_to_json(list_of_file_dicts)
 
 @app.route("/get_files", methods=['POST'])
 def get_files():
