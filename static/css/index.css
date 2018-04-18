@@ -1,13 +1,10 @@
 body{
     background-color:#d9edf7;
+    font-size: 18px;
 }
 .fileDiv{
     overflow: hidden;
     border-bottom: 1px solid grey;
-}
-.fileName{
-    float: left;
-    width: 80%;
 }
 
 .folder{
@@ -20,13 +17,17 @@ body{
     color:#4b38ce
 }
 
-.file{
+.fileName{
     color:#4b38ce;
     cursor:pointer;
 }
 
 .file:hover{
     color:red;
+}
+
+.fileHeader{
+    background-color: red;
 }
 
 #panel{
