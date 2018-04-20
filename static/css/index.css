@@ -5,6 +5,8 @@ body{
 .fileDiv{
     overflow: hidden;
     border-bottom: 1px solid grey;
+    margin-top: 5px;
+    margin-bottom: 5px;
 }
 
 .folder{
@@ -27,7 +29,7 @@ body{
 }
 
 .fileHeader{
-    background-color: red;
+    background-color: rgba(179, 179, 177, 0.79)
 }
 
 #panel{
@@ -43,10 +45,6 @@ body{
 
 }
 
-.fileDiv{
-    margin-top: 5px;
-    margin-bottom: 5px;
-}
 .path{
     display:inline;
 }
