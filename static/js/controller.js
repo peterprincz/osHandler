@@ -30,7 +30,7 @@ app.controller("fileCtrl", function($scope, $http){
         method: "GET"
     }).then(function successCallback(response) {
         $scope.currentLocation = response.data.root_location;
-        $scope.formattedLocation = response.data.root_location.replace(/\//g,'!');
+        refreshFormattedLocation();
         refreshWindow();
         getLocationForNavbar();
     });
@@ -112,7 +112,7 @@ app.controller("fileCtrl", function($scope, $http){
 
     $scope.refreshWindow = function(){
         refreshWindow();
-    }
+    };
 
     function refreshWindow() {
         getFolders();
@@ -128,13 +128,12 @@ app.controller("fileCtrl", function($scope, $http){
         var file = $("#uploadFile")[0].files[0];
         var upload = new Upload(file);
         upload.doUpload($scope.formattedLocation);
-    }
+    };
 
     function getLocationForNavbar(){
         let listOfFolders = $scope.currentLocation.split("/");
         $scope.foldersForNavbar = [];
         if(listOfFolders.toString() === ["", ""].toString()){
-            console.log("true")
             folderNameWPath = {};
             folderNameWPath["folderName"] = "/";
             folderNameWPath["folderPath"] = "/";
@@ -150,18 +149,27 @@ app.controller("fileCtrl", function($scope, $http){
         });
     }
 
+
     $scope.setAsFocusedElement = function(element){
-        console.log(element)
         if($scope.focusedFile == null){
+            element["class"] = "fileDivSelected";
             $scope.focusedFile = element;
         }
         if($scope.focusedFile != element){
-            $scope.focusedFile["class"] = "";
+            $scope.focusedFile["class"] = "fileDiv";
+            element["class"] = "fileDivSelected";
             $scope.focusedFile = element;
-            $scope.focusedFile["class"] = "fileDivSelected";
-            return;
         }
-        $scope.focusedFile["class"] = "fileDivSelected";
+    };
+
+    function setFileForDownload(file){
+        $scope.downloadAbleFile = file;
+        $scope.downloadAbleFileLink = $scope.formattedLocation + "!" + file.name;
+    };
+
+    $scope.openDownloadModal = function(file) {
+        $("#downloadModal").modal('toggle');
+        setFileForDownload(file)
     }
 
 

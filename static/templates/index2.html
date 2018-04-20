@@ -7,10 +7,9 @@
     <link rel="stylesheet" type="text/css" href="/static/css/bootstrap.min.css" />
     <link rel="stylesheet" type="text/css" href="/static/font-awesome/css/font-awesome.min.css" />
     <link rel="stylesheet" type="text/css" href="/static/css/index.css" />
-    <script type="text/javascript" src="/static/js/angular.min.js"></script>
-    <script type="text/javascript" src="/static/js/jquery-1.10.2.min.js"></script>
-    <script type="text/javascript" src="/static/js/bootstrap.min.js"></script>
-    <script src="/static/js/jquery-3.3.1.min.js"></script>
+    <script type="text/javascript" src="/static/js/frame-works/angular.min.js"></script>
+    <script src="/static/js/frame-works/jquery-3.3.1.min.js"></script>
+    <script type="text/javascript" src="/static/js/frame-works/bootstrap.min.js"></script>
     <script src="/static/js/upload.js"></script>
     <script src ="/static/js/controller.js"></script>
 </head>
@@ -20,28 +19,6 @@
         <h1>Home server <small>{{ipAddress}}</small></h1>
     </div>
     <div ng-controller="fileCtrl" id ="file_ctrl" style="padding: 0">
-        <div id="myModal" class="modal fade" role="dialog">
-            <div class="modal-dialog">
-                <!-- Modal content-->
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <button type="button" class="close" data-dismiss="modal">&times;</button>
-                        <h4 class="modal-title">Modal Header</h4>
-                    </div>
-                    <div class="modal-body">
-                        <input id="uploadFile" type="file" name="file" />
-                        <button ng-click="uploadFile()" id="uploadFileButton">Upload</button>
-                    </div>
-                    <div class="modal-footer">
-                        <button id="closeButton" type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-                        <div id="progress-wrp">
-                            <div class="progress-bar"></div>
-                            <div class="status">0%</div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
         <div class="row">
             <div class=" col-md-12">
                 <nav class="navbar navbar-default pb-filemng-navbar">
@@ -55,7 +32,7 @@
                                 </div>
                             </li>
                             <li><a id="compresser" href="compress_folder/{{formattedLocation}}"><span class="fa fa-lg fa-server"></span></a></li>
-                            <li><a href="#"><span class="fa fa-lg fa-window-maximize"  data-toggle="modal" data-target="#myModal"></span></a></li>
+                            <li><a href="#"><span class="fa fa-lg fa-window-maximize"  data-toggle="modal" data-target="#uploadModal"></span></a></li>
                         </ul>
                         <div id="pb-filemng-navigation">
                             <ul class="nav navbar-nav">
@@ -79,8 +56,8 @@
                         <div class="row">
                             <div class="col-md-4 pb-filemng-template-treeview">
                                 <div ng-repeat="folder in directoryList | filter:fileSearcher">
-                                    <div class="folderDiv">
-                                        <p ng-click="moveIntoFolder(folder)" class="folder" data-type="folder">{{ folder }}</p>
+                                    <div class="folderDiv" ng-dblclick="moveIntoFolder(folder)">
+                                        <p class="folder" data-type="folder">{{ folder }}</p>
                                     </div>
                                 </div>
                             </div>
@@ -91,7 +68,7 @@
                                             <span class="sortorder" ng-show="propertyName === 'name'" ng-class="{reverse: reverse}"></span>
                                         </div>
                                         <div class="col-md-3">
-                                            <button ng-click="sortBy('size')">Size</button>
+                                            <button ng-click="sortBy('modify_date')">Last modified</button>
                                             <span class="sortorder" ng-show="propertyName === 'size'" ng-class="{reverse: reverse}"></span>
                                         </div>
                                         <div class="col-md-3">
@@ -103,12 +80,11 @@
                                 <div ng-repeat="file in fileList | filter:fileSearcher | orderBy:propertyName:reverse">
                                 <div class="col-md-12 {{file.class}}" ng-click="setAsFocusedElement(file)">
                                         <div class="col-md-6 fileDetailDiv">
-                                            <a class="fileName"
-                                               href="{{'download_file/'+ formattedLocation + '!' + file.name}}">{{ file.name }}
-                                            </a>
+                                            <p class="fileName" ng-dblclick="openDownloadModal(file)" data-target="#downloadModal">{{ file.name }}
+                                            </p>
                                         </div>
                                         <div class="col-md-3 fileDetailDiv">
-                                            <p ng-click="" class="fileDate">
+                                            <p class="fileDate">
                                               {{file.readable_modify_date}}
                                             </p>
                                         </div>
@@ -121,6 +97,61 @@
                                 </div>
                             </div>
                         </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div id="uploadModal" class="modal fade" role="dialog">
+            <div class="modal-dialog">
+                <!-- Modal content-->
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal">&times;</button>
+                        <h4 class="modal-title">Uploading File</h4>
+                    </div>
+                    <div class="modal-body">
+                        <input id="uploadFile" type="file" name="file" />
+                        <button ng-click="uploadFile()" id="uploadFileButton">Upload</button>
+                    </div>
+                    <div class="modal-footer">
+                        <button id="closeButton" type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                        <div id="progress-wrp">
+                            <div class="progress-bar"></div>
+                            <div class="status">0%</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div id="downloadModal" class="modal fade" role="dialog">
+            <div class="modal-dialog">
+                <!-- Modal content-->
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal">&times;</button>
+                        <h4 class="modal-title">Downloading File</h4>
+                    </div>
+                    <div class="modal-body">
+                        <h1>You are downloading:</h1>
+                        <table class="fileDownloadTable">
+                            <tr class="fileDownloadTable">
+                                <td class="fileDownloadTd">File name</td>
+                                <td class="fileDownloadTd">Last modified</td>
+                                <td class="fileDownloadTd">Size</td>
+                            </tr>
+                            <tr  class="fileDownloadTable">
+                                <td class="fileDownloadTd">{{downloadAbleFile.name}}</td>
+                                <td class="fileDownloadTd">{{downloadAbleFile.readable_modify_date}}</td>
+                                <td class="fileDownloadTd">{{downloadAbleFile.formatted_size}}</td>
+                            </tr>
+                        </table>
+                        <a class="downloadFile" href="/download_file/{{downloadAbleFileLink}}">Download</a>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                        <a href="/download_file/{{downloadAbleFileLink}}">
+                            <button type="button" class="btn btn-default" onClick="dismissModal()">Download</button>
+                        </a>
                     </div>
                 </div>
             </div>

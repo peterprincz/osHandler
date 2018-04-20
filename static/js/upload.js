@@ -1,4 +1,6 @@
-
+dismissModal = function(){
+    $("#downloadModal").modal("toggle");
+}
 
 var Upload = function (file) {
     this.file = file;
