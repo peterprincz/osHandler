@@ -24,6 +24,7 @@ def get_files_with_stat(location):
         file_dict = dict()
         file_dict["name"] = file
         file_dict["size"] = os.stat(location + "/" + file).st_size
+        file_dict["modify_date"] = os.stat(location + "/" + file).st_mtime
         list_of_file_dicts.append(file_dict)
     list_of_file_dicts.sort(key=operator.itemgetter("name"))
     return list_of_file_dicts

@@ -30,6 +30,7 @@ app.controller("fileCtrl", function($scope, $http){
         $scope.currentLocation = response.data.root_location;
         $scope.formattedLocation = response.data.root_location.replace(/\//g,'!');
         refreshWindow();
+        getLocationForNavbar();
     });
 
     function getFolders() {
@@ -58,8 +59,16 @@ app.controller("fileCtrl", function($scope, $http){
     }
 
     $scope.moveIntoFolder = function(folder){
+        console.log("hello")
         $scope.lastLocations = [];
         $scope.currentLocation =  $scope.currentLocation + "/" + folder;
+        refreshFormattedLocation();
+        refreshWindow();
+    };
+
+    $scope.moveToFolder = function(path){
+        $scope.lastLocations.push($scope.currentLocation);
+        $scope.currentLocation = path;
         refreshFormattedLocation();
         refreshWindow();
     };
@@ -67,7 +76,6 @@ app.controller("fileCtrl", function($scope, $http){
 
     $scope.moveOutOfFolder = function(){
         $scope.lastLocations.push($scope.currentLocation);
-        console.log($scope.lastLocations);
         var currentLocation = $scope.currentLocation;
         if(currentLocation == "/"){
             return;
@@ -103,6 +111,7 @@ app.controller("fileCtrl", function($scope, $http){
     function refreshWindow() {
         getFolders();
         getFiles();
+        getLocationForNavbar();
     }
 
     function refreshFormattedLocation(){
@@ -115,5 +124,24 @@ app.controller("fileCtrl", function($scope, $http){
         upload.doUpload($scope.formattedLocation);
     }
 
-});
+    function getLocationForNavbar(){
+        let listOfFolders = $scope.currentLocation.split("/");
+        $scope.foldersForNavbar = [];
+        if(listOfFolders.toString() === ["", ""].toString()){
+            console.log("true")
+            folderNameWPath = {};
+            folderNameWPath["folderName"] = "/";
+            folderNameWPath["folderPath"] = "/";
+            $scope.foldersForNavbar.push(folderNameWPath);
+            console.log(folderNameWPath)
+            return;
+        }
+        listOfFolders.forEach(function (folderName, number) {
+            let folderNameWPath = {};
+            folderNameWPath["folderName"] = folderName + "/";
+            folderNameWPath["folderPath"] = "/" + $scope.currentLocation.split("/").slice(0, number +  1).join('/').substring(1);
+            $scope.foldersForNavbar.push(folderNameWPath)
+        });
+    }
 
+});

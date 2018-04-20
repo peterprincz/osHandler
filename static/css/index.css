@@ -14,6 +14,24 @@ body{
     cursor:pointer;
     display: inline;
 }
+
+.navbarFolder{
+    color:red;
+    cursor:pointer;
+    display: inline;
+}
+
+.navbarFolder:hover{
+    text-decoration:underline;
+    color:#4b38ce
+}
+
+.navbarPath{
+    background-color: #ababab;
+    padding-left: 20px;
+}
+
+
 .folder:hover{
     text-decoration:underline;
     color:#4b38ce
