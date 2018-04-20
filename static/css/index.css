@@ -3,22 +3,19 @@ body{
     font-size: 16px;
 }
 
-.fileDiv{
-    overflow: hidden;
-    cursor:pointer;
 
+#panel{
+    background-color:#f2f1f0;
 }
 
-.fileDivSelected{
-    overflow: hidden;
-    background-color: #dacfb5;
+
+#navbar{
+    background-color:rgba(71, 70, 64, 0.39);
 }
 
-.folder{
-    color:red;
-    cursor:pointer;
-    display: inline;
-
+.navbarPath{
+    background-color: #ababab;
+    padding-left: 20px;
 }
 
 .navbarFolder{
@@ -32,9 +29,35 @@ body{
     color:#4b38ce
 }
 
-.navbarPath{
-    background-color: #ababab;
-    padding-left: 20px;
+.folderDiv{
+    padding-top: 10px;
+    padding-bottom: 3px;
+    border-bottom: 1px solid grey;
+}
+.folderDiv:hover{
+    background-color: #dacfb5;
+}
+
+
+.folder{
+    color:red;
+    cursor:pointer;
+    display: inline;
+
+}
+
+.fileHeader{
+    background-color: rgba(179, 179, 177, 0.79)
+}
+
+.fileDiv{
+    overflow: hidden;
+    cursor:pointer;
+}
+
+.fileDivSelected{
+    overflow: hidden;
+    background-color: #dacfb5;
 }
 
 .fileName{
@@ -48,33 +71,6 @@ body{
     color:red;
 }
 
-.fileHeader{
-    background-color: rgba(179, 179, 177, 0.79)
-}
-
-#panel{
-    background-color:#f2f1f0;
-}
-#navbar{
-    background-color:rgba(71, 70, 64, 0.39);
-}
-.folderDiv{
-    padding-top: 10px;
-    padding-bottom: 3px;
-    border-bottom: 1px solid grey;
-}
-.folderDiv:hover{
-    background-color: #dacfb5;
-}
-
-
-.path{
-    display:inline;
-}
-.path:hover{
-   color:red;
-   cursor:pointer;
-}
 
 .fileDownloadTable{
     border:1px solid black;
@@ -86,67 +82,67 @@ body{
 }
 
 
-    .pb-filemng-template {
-	    margin-top: 40px;
-	    font-family: 'Sansita', sans-serif;
-    }
+.pb-filemng-template {
+    margin-top: 40px;
+    font-family: 'Sansita', sans-serif;
+}
 
-    .pb-filemng-navbar {
-	    margin-bottom: 0;
-    }
+.pb-filemng-navbar {
+    margin-bottom: 0;
+}
 
-    .treeview-toggle-btn {
-	    margin-left: 15px;
-    }
+.treeview-toggle-btn {
+    margin-left: 15px;
+}
 
-    .pb-filemng-template-btn {
-	    background-color: Transparent;
-        background-repeat:no-repeat;
-        border: none;
-        cursor:pointer;
-        outline:none;
-        color: gray;
-        padding: 0px 13px 0px 13px;
-    }
+.pb-filemng-template-btn {
+    background-color: Transparent;
+    background-repeat:no-repeat;
+    border: none;
+    cursor:pointer;
+    outline:none;
+    color: gray;
+    padding: 0px 13px 0px 13px;
+}
 
-    .pb-filemng-active {
-	    border-bottom: 2px solid #6d97db;
-	    color: #5f6977;
-    }
+.pb-filemng-active {
+    border-bottom: 2px solid #6d97db;
+    color: #5f6977;
+}
 
-    .pb-filemng-template-btn:hover {
-	    color: blue;
-    }
+.pb-filemng-template-btn:hover {
+    color: blue;
+}
 
-    .pb-filemng-body-folders > img:hover {
-	    cursor: pointer;
-    }
+.pb-filemng-body-folders > img:hover {
+    cursor: pointer;
+}
 
-    .pb-filemng-template-body{
-    	border-left: 1px solid gray;
-    }
+.pb-filemng-template-body{
+    border-left: 1px solid gray;
+}
 
-    .btn-align {
-	    margin-top: 7px;
-    }
+.btn-align {
+    margin-top: 7px;
+}
 
-    .pb-filemng-template-treeview {
-	    border-right: 1px solid gray;
-    }
+.pb-filemng-template-treeview {
+    border-right: 1px solid gray;
+}
 
-    .pb-filemng-folder {
-	    color: orange;
-	    padding-bottom: 3px;
-    }
+.pb-filemng-folder {
+    color: orange;
+    padding-bottom: 3px;
+}
 
-    .pb-filemng-paragraphs {
-	    margin-top: -20px;
-	    text-align: center;
-    }
+.pb-filemng-paragraphs {
+    margin-top: -20px;
+    text-align: center;
+}
 
-    .img-responsive {
-	    margin: 0 auto;
-    }
+.img-responsive {
+    margin: 0 auto;
+}
 
 @media screen and (max-width: 767px) {
 
