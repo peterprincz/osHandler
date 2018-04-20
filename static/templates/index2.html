@@ -73,6 +73,7 @@
                         <p class="navbarFolder" ng-click="moveToFolder(folder.folderPath)" >{{folder.folderName}}</p>
                     </div>
                 </div>
+                <!--------PANEL-------------------------------------------------------->
                 <div id="panel" class="panel panel-default">
                     <div class="panel-body pb-filemng-panel-body">
                         <div class="row">
@@ -83,7 +84,7 @@
                                     </div>
                                 </div>
                             </div>
-                            <div id="files" class="col-md-8">
+                            <div id="files" class="col-md-8"  >
                                 <div class="col-md-12 fileHeader">
                                         <div class="col-md-6">
                                             <button ng-click="sortBy('name')">Name</button>
@@ -99,24 +100,24 @@
                                         </div>
                                 </div>
                                 <br>
-                                <div class="col-md-12" ng-repeat="file in fileList | filter:fileSearcher | orderBy:propertyName:reverse">
-                                    <div class="fileDiv" class='file' data-type='file' href='#'>
-                                        <div class="col-md-6">
+                                <div ng-repeat="file in fileList | filter:fileSearcher | orderBy:propertyName:reverse">
+                                <div class="col-md-12 {{file.class}}" ng-click="setAsFocusedElement(file)">
+                                        <div class="col-md-6 fileDetailDiv">
                                             <a class="fileName"
                                                href="{{'download_file/'+ formattedLocation + '!' + file.name}}">{{ file.name }}
                                             </a>
                                         </div>
-                                        <div class="col-md-3">
-                                            <p class="fileDate">
+                                        <div class="col-md-3 fileDetailDiv">
+                                            <p ng-click="" class="fileDate">
                                               {{file.readable_modify_date}}
                                             </p>
                                         </div>
-                                        <div class="col-md-3" >
-                                            <p>
+                                        <div class="col-md-3 fileDetailDiv">
+                                            <p class="fileSize">
                                                 {{ file.formatted_size }}
                                             </p>
                                         </div>
-                                    </div>
+                                </div>
                                 </div>
                             </div>
                         </div>

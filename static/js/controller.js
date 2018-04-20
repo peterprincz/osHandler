@@ -13,6 +13,8 @@ app.controller('headerCtrl', function($scope, $http) {
 
 
 app.controller("fileCtrl", function($scope, $http){
+
+    $scope.focusedFile = null;
     $scope.lastLocations = [];
 
     $scope.propertyName = 'age';
@@ -52,7 +54,11 @@ app.controller("fileCtrl", function($scope, $http){
             method: "POST",
             data: dataToSend
         }).then(function successCallback(response) {
+            response.data.forEach(function (t, number) {
+                t["class"] = "fileDiv";
+            });
             $scope.fileList = response.data;
+            console.log($scope.fileList);
         }, function errorCallback(response) {
             console.log(response);
         })
@@ -143,5 +149,20 @@ app.controller("fileCtrl", function($scope, $http){
             $scope.foldersForNavbar.push(folderNameWPath)
         });
     }
+
+    $scope.setAsFocusedElement = function(element){
+        console.log(element)
+        if($scope.focusedFile == null){
+            $scope.focusedFile = element;
+        }
+        if($scope.focusedFile != element){
+            $scope.focusedFile["class"] = "";
+            $scope.focusedFile = element;
+            $scope.focusedFile["class"] = "fileDivSelected";
+            return;
+        }
+        $scope.focusedFile["class"] = "fileDivSelected";
+    }
+
 
 });
