@@ -1,20 +1,18 @@
 from werkzeug.utils import secure_filename
 
-import jsonBuilder
-import string_handler
+
 import sys_handler
-import random
-from flask import Flask, render_template, redirect, request, session, jsonify, send_file, send_from_directory
-import shutil
-import os
+import service
+
+from flask import Flask, request, send_file, send_from_directory
+
 
 app = Flask(__name__)
 
 
 @app.route("/get_ip")
-def get_up():
-    ip_address = sys_handler.get_ip()
-    return jsonBuilder.ip_to_json(ip_address)
+def get_ip():
+    return service.get_ip()
 
 
 @app.route("/")
@@ -24,59 +22,52 @@ def index():
 
 @app.route("/get_folders", methods=['POST'])
 def get_folders():
-    location = request.json['currentLocation']
-    list_of_folders = sys_handler.get_folder_dict(location)['folders']
-    return jsonBuilder.folders_to_json(list_of_folders)
+    return service.get_folders(request)
 
 
 @app.route("/get_files_with_size", methods=['POST'])
 def get_files_with_size():
-    location = request.json['currentLocation']
-    list_of_file_dicts = sys_handler.get_files_with_stat(location)
-    return jsonBuilder.detailed_files_to_json(list_of_file_dicts)
+    return service.get_files_with_size(request)
 
 
 @app.route("/get_files", methods=['POST'])
 def get_files():
-    location = request.json['currentLocation']
-    list_of_files = sys_handler.get_folder_dict(location)['files']
-    return jsonBuilder.files_to_json(list_of_files)
+    return service.get_files(request)
 
 
 @app.route("/get_root_path")
 def get_location():
-    path = sys_handler.get_current_path()
-    return jsonBuilder.location_to_json(path)
+    return service.get_location()
 
 
 @app.route("/download_file/<path>")
 def download_file(path):
-    real_path = string_handler.convert_parampath_to_realpath(path)
-    folder_name = string_handler.get_folder_and_file(real_path)["folder_name"]
-    file_name = string_handler.get_folder_and_file(real_path)["file_name"]
+    file_infos = service.get_file_for_download(path)
+    folder_name = file_infos["folder_name"]
+    file_name = file_infos["file_name"]
+    if folder_name is None or file_name is None:
+        return "File not found", 404
     try:
         return send_from_directory(folder_name, file_name, as_attachment=True)
     except Exception as e:
-        print(e)
+        app.logger.critical(e)
+        return "Internal server error", 500
 
 
 @app.route("/compress_folder/<path>")
 def compress_folder(path):
-    real_path = string_handler.convert_parampath_to_realpath(path)
-    name_of_rar = string_handler.get_folder_name(real_path)
-    return send_file(shutil.make_archive(name_of_rar, "zip", real_path), as_attachment=True)
+    return send_file(service.make_rar_for_download(path), as_attachment=True)
 
 
 @app.route('/upload_file/<path>', methods=['GET', 'POST'])
 def upload_file(path):
-    real_path = string_handler.convert_parampath_to_realpath(path)
-    if request.method == 'POST':
-        file = request.files['file']
-        if file:
-            filename = secure_filename(file.filename)
-            file.save(os.path.join(real_path, filename))
-            return 'OK', 200
-    return 'Bad request', 300
+    if request.method != 'POST':
+        return 'Bad request', 300
+    file = request.files['file']
+    if file is None:
+        return 'Error while accesing file', 500
+    service.save_file(file, path)
+    return 'OK', 200
 
 
 if __name__ == "__main__":
