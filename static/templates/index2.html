@@ -20,7 +20,7 @@
     </div>
     <div ng-controller="fileCtrl" id ="file_ctrl" style="padding: 0">
         <div class="row">
-            <div class=" col-md-12">
+            <div class=" col-md-10  col-md-offset-1">
                 <nav class="navbar navbar-default pb-filemng-navbar">
                     <div id="navbar" class="container-fluid">
                         <div class="navbar-header">
@@ -32,7 +32,7 @@
                                 </div>
                             </li>
                             <li><a id="compresser" href="compress_folder/{{formattedLocation}}"><span class="fa fa-lg fa-server"></span></a></li>
-                            <li><a href="#"><span class="fa fa-lg fa-window-maximize"  data-toggle="modal" data-target="#uploadModal"></span></a></li>
+                            <li><a href="#"><span class="fa fa-upload"  data-toggle="modal" data-target="#uploadModal"></span></a></li>
                         </ul>
                         <div id="pb-filemng-navigation">
                             <ul class="nav navbar-nav">
@@ -54,7 +54,7 @@
                 <div id="panel" class="panel panel-default">
                     <div class="panel-body pb-filemng-panel-body">
                         <div class="row">
-                            <div class="col-md-4 pb-filemng-template-treeview">
+                            <div id="folders" class="col-md-4 pb-filemng-template-treeview">
                                 <div ng-repeat="folder in directoryList | filter:fileSearcher">
                                     <div class="folderDiv" ng-dblclick="moveIntoFolder(folder)">
                                         <p class="folder" data-type="folder">{{ folder }}</p>
@@ -64,21 +64,18 @@
                             <div id="files" class="col-md-8"  >
                                 <div class="col-md-12 fileHeader">
                                         <div class="col-md-6">
-                                            <button ng-click="sortBy('name')">Name</button>
-                                            <span class="sortorder" ng-show="propertyName === 'name'" ng-class="{reverse: reverse}"></span>
+                                            <button class="btn btn-default" ng-click="sortBy('name')">Name</button>
                                         </div>
                                         <div class="col-md-3">
-                                            <button ng-click="sortBy('modify_date')">Last modified</button>
-                                            <span class="sortorder" ng-show="propertyName === 'size'" ng-class="{reverse: reverse}"></span>
+                                            <button class="btn btn-default" ng-click="sortBy('modify_date')">Last modified</button>
                                         </div>
                                         <div class="col-md-3">
-                                            <button ng-click="sortBy('size')">Size</button>
-                                            <span class="sortorder" ng-show="propertyName === 'size'" ng-class="{reverse: reverse}"></span>
+                                            <button class="btn btn-default" ng-click="sortBy('size')">Size</button>
                                         </div>
                                 </div>
                                 <br>
                                 <div ng-repeat="file in fileList | filter:fileSearcher | orderBy:propertyName:reverse">
-                                <div class="col-md-12 {{file.class}}" ng-click="setAsFocusedElement(file)">
+                                <div class="col-md-12 fileDiv" ng-click="setAsFocusedElement(file)">
                                         <div class="col-md-6 fileDetailDiv">
                                             <p class="fileName" ng-dblclick="openDownloadModal(file)" data-target="#downloadModal">{{ file.name }}
                                             </p>

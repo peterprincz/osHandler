@@ -1,13 +1,21 @@
 body{
     background-color:#d9edf7;
-    font-size: 16px;
+    font-size: 14px;
 }
 
+#files{
+    overflow-y: scroll;
+    height:400px;
+}
+
+#folders{
+    overflow-y: scroll;
+    height:400px;
+}
 
 #panel{
     background-color:#f2f1f0;
 }
-
 
 #navbar{
     background-color:rgba(71, 70, 64, 0.39);
@@ -38,12 +46,10 @@ body{
     background-color: #dacfb5;
 }
 
-
 .folder{
     color:red;
     cursor:pointer;
     display: inline;
-
 }
 
 .fileHeader{
@@ -53,6 +59,10 @@ body{
 .fileDiv{
     overflow: hidden;
     cursor:pointer;
+}
+
+.fileDiv:hover{
+    background-color: #dacfb5;
 }
 
 .fileDivSelected{
