@@ -3,6 +3,7 @@ $( document ).ready(function() {
         setTimeout(function(){
             $("#Iframe").attr("src", "http://" + data.ip_address);
             var iframe = document.getElementById("Iframe")
+            iframe.contentWindow.focus();
             }, 4000);
     });
 });
