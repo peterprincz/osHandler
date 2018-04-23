@@ -53,3 +53,8 @@ def save_file(file, path):
     real_path = string_handler.convert_parampath_to_realpath(path)
     filename = secure_filename(file.filename)
     file.save(os.path.join(real_path, filename))
+
+
+def get_butterfly_address():
+    butterfly_address = sys_handler.get_ip()+":57575"
+    return jsonBuilder.butterfly_address(butterfly_address)

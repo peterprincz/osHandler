@@ -28,3 +28,9 @@ def detailed_files_to_json(list_of_files):
         dict["formatted_size"] = string_handler.humanbytes(dict["size"])
         dict["readable_modify_date"] = string_handler.humanTime(dict["modify_date"])
     return jsonify(list_of_files)
+
+
+def butterfly_address(adress):
+    result = {"ip_address": adress}
+    print(result)
+    return jsonify(result)

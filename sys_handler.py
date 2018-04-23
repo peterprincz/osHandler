@@ -2,7 +2,6 @@ import os
 import operator
 import socket
 
-
 def get_folder_dict(location):
     base_folder = dict()
     base_folder['folders'] = list()
@@ -60,3 +59,8 @@ def get_ip():
     finally:
         s.close()
     return IP
+
+
+
+def launch_butterfly():
+    os.system("butterfly.server.py --host="+get_ip()+" --port=57575 --unsecure")

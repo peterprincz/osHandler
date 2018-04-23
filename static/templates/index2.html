@@ -12,6 +12,7 @@
     <script type="text/javascript" src="/static/js/frame-works/bootstrap.min.js"></script>
     <script src="/static/js/upload.js"></script>
     <script src ="/static/js/controller.js"></script>
+    <script src ="/static/js/Iframe.js"></script>
 </head>
 <body ng-app="myApp">
 <div class="container">
@@ -33,11 +34,10 @@
                             </li>
                             <li><a id="compresser" href="compress_folder/{{formattedLocation}}"><span class="fa fa-lg fa-server"></span></a></li>
                             <li><a href="#"><span class="fa fa-upload"  data-toggle="modal" data-target="#uploadModal"></span></a></li>
+                            <li><button ng-click="startButterFly()" data-toggle="modal" data-target="#terminalModal">terminal</button></li>
                         </ul>
                         <div id="pb-filemng-navigation">
                             <ul class="nav navbar-nav">
-                                <li><a ng-click="moveOutOfFolder()" href="#"><span class="fa fa-chevron-left fa-lg"></span></a></li>
-                                <li><a ng-click="moveBackAFolder()" href="#"><span class="fa fa-chevron-right fa-lg"></span></a></li>
                                 <li>
                                     <p id="currentLocation"></p>
                                 </li>
@@ -46,8 +46,11 @@
                     </div>
                 </nav>
                 <div class="navbarPath">
+                    <a ng-click="moveOutOfFolder()" href="#"><span class="fa fa-chevron-left fa-lg"></span></a>
+                    <a ng-click="moveBackAFolder()" href="#"><span class="fa fa-chevron-right fa-lg"></span></a>
                     <div style="display:inline-block" ng-repeat="folder in foldersForNavbar">
-                        <p class="navbarFolder" ng-click="moveToFolder(folder.folderPath)" >{{folder.folderName}}</p>
+                        <span ng-if="!$first"> > </span>
+                        <button class="navbarFolder" ng-click="moveToFolder(folder.folderPath)" >{{folder.folderName}}</button>
                     </div>
                 </div>
                 <!--------PANEL-------------------------------------------------------->
@@ -75,9 +78,9 @@
                                 </div>
                                 <br>
                                 <div ng-repeat="file in fileList | filter:fileSearcher | orderBy:propertyName:reverse">
-                                <div class="col-md-12 fileDiv" ng-click="setAsFocusedElement(file)">
+                                <div class="col-md-12 fileDiv" ng-dblclick="openDownloadModal(file)">
                                         <div class="col-md-6 fileDetailDiv">
-                                            <p class="fileName" ng-dblclick="openDownloadModal(file)" data-target="#downloadModal">{{ file.name }}
+                                            <p class="fileName" data-target="#downloadModal">{{ file.name }}
                                             </p>
                                         </div>
                                         <div class="col-md-3 fileDetailDiv">
@@ -143,6 +146,26 @@
                             </tr>
                         </table>
                         <a class="downloadFile" href="/download_file/{{downloadAbleFileLink}}">Download</a>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                        <a href="/download_file/{{downloadAbleFileLink}}">
+                            <button type="button" class="btn btn-default" onClick="dismissModal()">Download</button>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div id="terminalModal" class="modal fade" role="dialog">
+            <div class="col-md-8 col-md-offset-2">
+                <!-- Modal content-->
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal">&times;</button>
+                        <h4 class="modal-title">Remote terminal</h4>
+                    </div>
+                    <div>
+                        <iframe class="iFrame" id="Iframe" ></iframe>
                     </div>
                     <div class="modal-footer">
                         <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>

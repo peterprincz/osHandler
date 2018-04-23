@@ -4,8 +4,9 @@ from werkzeug.utils import secure_filename
 import sys_handler
 import service
 
-from flask import Flask, request, send_file, send_from_directory
+from flask import Flask, request, send_file, send_from_directory, redirect, render_template
 
+import terminal
 
 app = Flask(__name__)
 
@@ -13,6 +14,17 @@ app = Flask(__name__)
 @app.route("/get_ip")
 def get_ip():
     return service.get_ip()
+
+
+@app.route("/get_butterfly_address")
+def get_butterfly_address():
+    return service.get_butterfly_address()
+
+
+@app.route("/start_butterfly")
+def butterfly():
+    sys_handler.launch_butterfly()
+    return service.get_butterfly_address()
 
 
 @app.route("/")
