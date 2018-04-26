@@ -16,9 +16,8 @@
 </head>
 <body ng-app="myApp">
 <div class="container">
-    <div ng-controller="headerCtrl" class="page-header">
-        <h1>Home server <small>{{ipAddress}}</small></h1>
-    </div>
+    <div ng-controller="headerCtrl">
+        <h3 class="col-md-8 col-md-offset-1 headerh1 ">HOME SERVER <small>{{ipAddress}}</small></h3>
     <div ng-controller="fileCtrl" id ="file_ctrl" style="padding: 0">
         <div class="row">
             <div class=" col-md-10  col-md-offset-1">
@@ -26,15 +25,18 @@
                     <div id="navbar" class="container-fluid">
                         <div class="navbar-header">
                             <div>
-                                <input type="text" placeholder="Search for something..." data-ng-model="fileSearcher">
+                                <form class="form-inline">
+                                <input class="form-control mr-sm-2 search" type="text" placeholder="Search for something..." data-ng-model="fileSearcher"/>
+                                    <i class="fa fa-search icon fa-lg"></i>
+                                </form>
                             </div>
                             </div>
                         <ul class="nav navbar-nav navbar-right" id="options">
                             <li>
                             </li>
-                            <li><a id="compresser" href="compress_folder/{{formattedLocation}}"><span class="fa fa-lg fa-server"></span></a></li>
-                            <li><a href="#"><span class="fa fa-upload"  data-toggle="modal" data-target="#uploadModal"></span></a></li>
-                            <li><button ng-click="startButterFly()" data-toggle="modal" data-target="#terminalModal">terminal</button></li>
+                            <li><a id="compresser" href="compress_folder/{{formattedLocation}}"><span class="fa fa-lg fa-server icon"></span></a></li>
+                            <li><a href="#"><span class="fa fa-upload icon"  data-toggle="modal" data-target="#uploadModal"></span></a></li>
+                            <li><a href="#"><span class="fa fa-tv fa-lg icon" ng-click="startButterFly()" data-toggle="modal" data-target="#terminalModal"></span></a></li>
                         </ul>
                         <div id="pb-filemng-navigation">
                             <ul class="nav navbar-nav">
@@ -46,10 +48,9 @@
                     </div>
                 </nav>
                 <div class="navbarPath">
-                    <a ng-click="moveOutOfFolder()" href="#"><span class="fa fa-chevron-left fa-lg"></span></a>
-                    <a ng-click="moveBackAFolder()" href="#"><span class="fa fa-chevron-right fa-lg"></span></a>
+                    <a ng-click="moveOutOfFolder()" href="#"><span class="fa fa-chevron-left fa-lg arrow"></span></a>
+                    <a ng-click="moveBackAFolder()" href="#"><span class="fa fa-chevron-right fa-lg arrow"></span></a>
                     <div style="display:inline-block" ng-repeat="folder in foldersForNavbar">
-                        <span ng-if="!$first"> <i class="fas fa-laptop"></i></span>
                         <button class="navbarFolder" ng-click="moveToFolder(folder.folderPath)" >{{folder.folderName}}</button>
                     </div>
                 </div>
@@ -66,13 +67,13 @@
                             </div>
                             <div id="files" class="col-md-8"  >
                                 <div class="col-md-12 fileHeader">
-                                        <div class="col-md-6">
+                                        <div class="sortButton col-md-6">
                                             <button class="btn btn-default" ng-click="sortBy('name')">Name</button>
                                         </div>
-                                        <div class="col-md-3">
+                                        <div class="sortButton col-md-3">
                                             <button class="btn btn-default" ng-click="sortBy('modify_date')">Last modified</button>
                                         </div>
-                                        <div class="col-md-3">
+                                        <div class="sortButton col-md-3">
                                             <button class="btn btn-default" ng-click="sortBy('size')">Size</button>
                                         </div>
                                 </div>
@@ -110,15 +111,13 @@
                         <h4 class="modal-title">Uploading File</h4>
                     </div>
                     <div class="modal-body">
-                        <input id="uploadFile" type="file" name="file" />
-                        <button ng-click="uploadFile()" id="uploadFileButton">Upload</button>
+                        <form>
+                            <input class="btn" style="padding-left: 0px;" id="uploadFile" type="file" name="file" />
+                            <button class="btn-success" ng-click="uploadFile()" id="uploadFileButton">Upload</button>
+                        </form>
                     </div>
                     <div class="modal-footer">
-                        <button id="closeButton" type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-                        <div id="progress-wrp">
-                            <div class="progress-bar"></div>
-                            <div class="status">0%</div>
-                        </div>
+                        <button class="btn-danger" id="closeButton" type="button" class="btn btn-default" data-dismiss="modal">Close</button>
                     </div>
                 </div>
             </div>
@@ -132,20 +131,19 @@
                         <h4 class="modal-title">Downloading File</h4>
                     </div>
                     <div class="modal-body">
-                        <h1>You are downloading:</h1>
-                        <table class="fileDownloadTable">
+                        <h3>You are downloading:</h3>
+                        <table class="table-bordered">
                             <tr class="fileDownloadTable">
                                 <td class="fileDownloadTd">File name</td>
                                 <td class="fileDownloadTd">Last modified</td>
                                 <td class="fileDownloadTd">Size</td>
                             </tr>
                             <tr  class="fileDownloadTable">
-                                <td class="fileDownloadTd">{{downloadAbleFile.name}}</td>
-                                <td class="fileDownloadTd">{{downloadAbleFile.readable_modify_date}}</td>
-                                <td class="fileDownloadTd">{{downloadAbleFile.formatted_size}}</td>
+                                <td class="fileDownloadTd"><h6>{{downloadAbleFile.name}}</h6></td>
+                                <td class="fileDownloadTd"><h6>{{downloadAbleFile.readable_modify_date}}</h6></td>
+                                <td class="fileDownloadTd"><h6>{{downloadAbleFile.formatted_size}}</h6></td>
                             </tr>
                         </table>
-                        <a class="downloadFile" href="/download_file/{{downloadAbleFileLink}}">Download</a>
                     </div>
                     <div class="modal-footer">
                         <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>

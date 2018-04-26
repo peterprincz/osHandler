@@ -7,3 +7,7 @@ $( document ).ready(function() {
             }, 4000);
     });
 });
+
+refreshIframe = function(){
+    $( '#Iframe' ).attr( 'src', function ( i, val ) { return val; });
+};

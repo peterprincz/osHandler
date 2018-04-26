@@ -12,7 +12,7 @@ def get_folder_dict(location):
         if os.path.isfile(location + "/" + word):
             base_folder['files'].append(word)
         else:
-            base_folder['folders'].append(word)
+                base_folder['folders'].append(word)
     return base_folder
 
 

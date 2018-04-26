@@ -32,5 +32,4 @@ def detailed_files_to_json(list_of_files):
 
 def butterfly_address(adress):
     result = {"ip_address": adress}
-    print(result)
     return jsonify(result)

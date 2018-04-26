@@ -18,7 +18,7 @@ app.controller("fileCtrl", function($scope, $http, $sce){
             url: "/start_butterfly",
             method: "GET"
         }).then(function successCallback(response) {
-            console.log("hello")
+            refreshIframe();
         })
     };
 
