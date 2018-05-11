@@ -4,10 +4,12 @@ $( document ).ready(function() {
             $("#Iframe").attr("src", "http://" + data.ip_address);
             var iframe = document.getElementById("Iframe")
             iframe.contentWindow.focus();
-            }, 4000);
+            }, 4500);
     });
 });
 
 refreshIframe = function(){
-    $( '#Iframe' ).attr( 'src', function ( i, val ) { return val; });
+    setTimeout(function(){
+        $( '#Iframe' ).attr( 'src', function ( i, val ) { return val; });
+    }, 4500)
 };

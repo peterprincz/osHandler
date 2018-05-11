@@ -48,8 +48,8 @@
                     </div>
                 </nav>
                 <div class="navbarPath">
-                    <a ng-click="moveOutOfFolder()" href="#"><span class="fa fa-chevron-left fa-lg arrow"></span></a>
-                    <a ng-click="moveBackAFolder()" href="#"><span class="fa fa-chevron-right fa-lg arrow"></span></a>
+                    <a ng-click="moveOutOfFolder()" href="#"><span class="fa fa-chevron-left fa-lg arrow icon"></span></a>
+                    <a ng-click="moveBackAFolder()" href="#"><span class="fa fa-chevron-right fa-lg arrow icon"></span></a>
                     <div style="display:inline-block" ng-repeat="folder in foldersForNavbar">
                         <button class="navbarFolder" ng-click="moveToFolder(folder.folderPath)" >{{folder.folderName}}</button>
                     </div>
@@ -68,13 +68,13 @@
                             <div id="files" class="col-md-8"  >
                                 <div class="col-md-12 fileHeader">
                                         <div class="sortButton col-md-6">
-                                            <button class="btn btn-default" ng-click="sortBy('name')">Name</button>
+                                            <button class="btn btn-primary btn-block" ng-click="sortBy('name')">Name</button>
                                         </div>
                                         <div class="sortButton col-md-3">
-                                            <button class="btn btn-default" ng-click="sortBy('modify_date')">Last modified</button>
+                                            <button class="btn btn-primary btn-block" ng-click="sortBy('modify_date')">Last modified</button>
                                         </div>
                                         <div class="sortButton col-md-3">
-                                            <button class="btn btn-default" ng-click="sortBy('size')">Size</button>
+                                            <button  class="btn btn-primary btn-block" ng-click="sortBy('size')">Size</button>
                                         </div>
                                 </div>
                                 <br>
@@ -107,17 +107,17 @@
                 <!-- Modal content-->
                 <div class="modal-content">
                     <div class="modal-header">
-                        <button type="button" class="close" data-dismiss="modal">&times;</button>
+                        <button type="button" class="close icon" data-dismiss="modal">&times;</button>
                         <h4 class="modal-title">Uploading File</h4>
                     </div>
                     <div class="modal-body">
                         <form>
                             <input class="btn" style="padding-left: 0px;" id="uploadFile" type="file" name="file" />
-                            <button class="btn-success" ng-click="uploadFile()" id="uploadFileButton">Upload</button>
                         </form>
                     </div>
                     <div class="modal-footer">
-                        <button class="btn-danger" id="closeButton" type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                        <button class="btn btn-success" ng-click="uploadFile()" id="uploadFileButton">Upload</button>
+                        <button class="btn btn-danger" id="closeButton" type="button" class="btn btn-default" data-dismiss="modal">Close</button>
                     </div>
                 </div>
             </div>
@@ -146,10 +146,10 @@
                         </table>
                     </div>
                     <div class="modal-footer">
-                        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
                         <a href="/download_file/{{downloadAbleFileLink}}">
-                            <button type="button" class="btn btn-default" onClick="dismissModal()">Download</button>
+                            <button type="button" class="btn btn-success" onClick="dismissModal()">Download</button>
                         </a>
+                        <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
                     </div>
                 </div>
             </div>

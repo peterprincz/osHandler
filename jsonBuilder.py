@@ -4,7 +4,7 @@ from flask import jsonify
 
 
 def location_to_json(location):
-    result = {"root_location":location}
+    result = {"root_location": location}
     return jsonify(result)
 
 

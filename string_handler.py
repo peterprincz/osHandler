@@ -21,6 +21,17 @@ def get_folder_and_file(path):
             return result
 
 
+def move_back_in_folder(path):
+    if path != "/home":
+        position_of_last_slash = -1
+    for x in range(len(path) - 1, 0, -1):
+        if path[x] == "/":
+            position_of_last_slash = x
+            break
+    return path[0:position_of_last_slash + 1]
+
+
+
 def humanbytes(B):
     B = float(B)
     KB = float(1024)

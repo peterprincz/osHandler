@@ -4,9 +4,7 @@ from werkzeug.utils import secure_filename
 import sys_handler
 import service
 
-from flask import Flask, request, send_file, send_from_directory, redirect, render_template
-
-import terminal
+from flask import Flask, request, send_file, send_from_directory
 
 app = Flask(__name__)
 
