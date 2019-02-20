@@ -78,16 +78,17 @@ app.controller("fileCtrl", function($scope, $http, $sce){
     }
 
     $scope.moveIntoFolder = function(folder){
+        if(folder.length == 3 && folder[1] == ':'){
+            $scope.currentLocation = folder;
+        } else {
+            $scope.currentLocation =  $scope.currentLocation + "/" + folder;
+        }
         $scope.lastLocations = [];
-        $scope.currentLocation =  $scope.currentLocation + "/" + folder;
         refreshFormattedLocation();
         refreshWindow();
     };
 
     $scope.moveToFolder = function(path){
-        if(path == ''){
-            getDrivers()
-        }
         $scope.lastLocations.push($scope.currentLocation);
         $scope.currentLocation = path;
         refreshFormattedLocation();
@@ -98,6 +99,9 @@ app.controller("fileCtrl", function($scope, $http, $sce){
     $scope.moveOutOfFolder = function(){
         $scope.lastLocations.push($scope.currentLocation);
         var currentLocation = $scope.currentLocation;
+        if(currentLocation.length == 3 && currentLocation[1] == ':'){
+            return getDrivers();
+        }
         if(currentLocation == "/"){
             return;
         }
@@ -109,7 +113,11 @@ app.controller("fileCtrl", function($scope, $http, $sce){
                     refreshWindow();
                     return;
                 }
-                $scope.currentLocation = currentLocation.substring(0, i);
+                let newLocation = currentLocation.substring(0, i);
+                if(newLocation.length == 2 && newLocation[1] == ':'){
+                    newLocation = newLocation + "/"
+                }
+                $scope.currentLocation = newLocation
                 refreshFormattedLocation();
                 refreshWindow();
                 return;
@@ -137,12 +145,12 @@ app.controller("fileCtrl", function($scope, $http, $sce){
 
     function getDrivers() {
         $http({
-            url: "/get-drivers",
+            url: "/get-drives",
             method: "GET",
         }).then(function successCallback(response) {
-            $scope.directoryList = response.data.list_of_drivers;
+            $scope.directoryList = response.data.driveList;
         }, function errorCallback(response) {
-
+            console.log(response)
         })
     }
 
@@ -168,7 +176,6 @@ app.controller("fileCtrl", function($scope, $http, $sce){
         }
         listOfFolders.forEach(function (folderName, number) {
             let folderNameWPath = {};
-            console.log(folderName)
             if(folderName == ""){
                 return;
                 //folderNameWPath["folderName"] = "/";
