@@ -13,6 +13,9 @@ app = Flask(__name__)
 def get_ip():
     return service.get_ip()
 
+@app.route("/get-drives")
+def get_drives():
+    return service.get_drives()
 
 @app.route("/get_butterfly_address")
 def get_butterfly_address():

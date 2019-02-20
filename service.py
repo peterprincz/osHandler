@@ -7,6 +7,9 @@ import string_handler
 import sys_handler
 import os
 
+def get_drives():
+    drives = sys_handler.get_drives()
+    return jsonBuilder.drives_to_json(drives)
 
 def get_ip():
     ip_address = sys_handler.get_ip()
@@ -33,6 +36,9 @@ def get_files(request):
 
 def get_location():
     path = sys_handler.get_current_path()
+    if os.name == 'nt':
+        path = path.replace('\\', '/')
+        print(path)
     return jsonBuilder.location_to_json(path)
 
 

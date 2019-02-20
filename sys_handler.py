@@ -1,8 +1,17 @@
 import os
 import operator
 import socket
+from pathlib import Path
 
 import string_handler
+
+import win32api
+
+#for windows
+def get_drives():
+    drives = win32api.GetLogicalDriveStrings()
+    drives = drives.split('\000')[:-1]
+    return drives
 
 
 def get_folder_dict(location):
@@ -15,7 +24,7 @@ def get_folder_dict(location):
         if os.path.isfile(location + "/" + word):
             base_folder['files'].append(word)
         else:
-                base_folder['folders'].append(word)
+            base_folder['folders'].append(word)
     return base_folder
 
 
@@ -33,7 +42,8 @@ def get_files_with_stat(location):
 
 
 def get_current_path():
-    return os.getcwd()
+    #return os.getcwd()
+    return str(Path.home())
 
 
 def move_back():

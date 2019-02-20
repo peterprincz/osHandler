@@ -29,6 +29,8 @@ app.controller("fileCtrl", function($scope, $http, $sce){
     $scope.propertyName = 'age';
     $scope.reverse = true;
 
+    $scope.current_drive = ''
+
     $scope.sortBy = function(propertyName) {
         $scope.reverse = ($scope.propertyName === propertyName) ? !$scope.reverse : false;
         $scope.propertyName = propertyName;
@@ -69,6 +71,9 @@ app.controller("fileCtrl", function($scope, $http, $sce){
             $scope.fileList = response.data;
         }, function errorCallback(response) {
             console.log(response);
+            //We couldn't read the folder
+            alert("Can't open that folder")
+            $scope.moveOutOfFolder()
         })
     }
 
@@ -80,6 +85,9 @@ app.controller("fileCtrl", function($scope, $http, $sce){
     };
 
     $scope.moveToFolder = function(path){
+        if(path == ''){
+            getDrivers()
+        }
         $scope.lastLocations.push($scope.currentLocation);
         $scope.currentLocation = path;
         refreshFormattedLocation();
@@ -127,6 +135,17 @@ app.controller("fileCtrl", function($scope, $http, $sce){
         getLocationForNavbar();
     }
 
+    function getDrivers() {
+        $http({
+            url: "/get-drivers",
+            method: "GET",
+        }).then(function successCallback(response) {
+            $scope.directoryList = response.data.list_of_drivers;
+        }, function errorCallback(response) {
+
+        })
+    }
+
     function refreshFormattedLocation(){
         $scope.formattedLocation = $scope.currentLocation.replace(/\//g,'!');
     }
@@ -149,13 +168,20 @@ app.controller("fileCtrl", function($scope, $http, $sce){
         }
         listOfFolders.forEach(function (folderName, number) {
             let folderNameWPath = {};
+            console.log(folderName)
             if(folderName == ""){
-                folderNameWPath["folderName"] = "/";
-                folderNameWPath["folderPath"] = "/";
-                $scope.foldersForNavbar.push(folderNameWPath)
+                return;
+                //folderNameWPath["folderName"] = "/";
+                //folderNameWPath["folderPath"] = "/";
+                //$scope.foldersForNavbar.push(folderNameWPath)
             } else {
                 folderNameWPath["folderName"] = folderName;
-                folderNameWPath["folderPath"] = "/" + $scope.currentLocation.split("/").slice(0, number +  1).join('/').substring(1);
+                let path = $scope.currentLocation.split("/").slice(0, number +  1).join('/')
+                //Windows drive check
+                if(path.length == 2 && path[1] == ':'){
+                    path = path + "/"
+                }
+                folderNameWPath["folderPath"] = path
                 $scope.foldersForNavbar.push(folderNameWPath)
             }
         });
@@ -183,6 +209,4 @@ app.controller("fileCtrl", function($scope, $http, $sce){
         $("#downloadModal").modal('toggle');
         setFileForDownload(file)
     }
-
-
 });

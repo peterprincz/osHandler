@@ -3,6 +3,10 @@ import sys_handler
 from flask import jsonify
 
 
+def drives_to_json(drives):
+    result = {"driveList": drives}
+    return jsonify(result)
+
 def location_to_json(location):
     result = {"root_location": location}
     return jsonify(result)
